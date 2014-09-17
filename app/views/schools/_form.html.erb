@@ -1,0 +1,22 @@
+<%= simple_form_for(@school, html: {class: 'col-md-6'}) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+      <%= f.input :year, collection: 2010..2050, prompt: "Please select Year" %>
+      <%= f.input :unique_id %>
+      <%= f.input :state, :input_html => {:value => f.object.state || 'Bangladesh'}, label: "Country" %>
+      <%= f.input :division_id, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division' %>
+      <%= f.input :district_id, collection: District.all.collect { |c| [c.name, c.id] }, prompt: 'Please select District' %>
+      <%= f.input :thana_id, collection: Thana.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Thana' %>
+      <%= f.input :union_id, collection: Union.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Union' %>
+      <%= f.input :title %>
+      <%= f.input :headmaster_name %>
+      <%= f.input :phone %>
+      <%= f.input :boys %>
+      <%= f.input :girls %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit %>
+    </div>
+<% end %>

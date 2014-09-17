@@ -1,0 +1,67 @@
+<p>
+  <strong>Year:</strong>
+  <%= @school.year %>
+</p>
+
+<p>
+  <strong>Unique:</strong>
+  <%= @school.unique_id %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @school.state %>
+</p>
+
+<p>
+  <strong>Division:</strong>
+  <%= @school.division_id %>
+</p>
+
+<p>
+  <strong>District:</strong>
+  <%= @school.district_id %>
+</p>
+
+<p>
+  <strong>Thana:</strong>
+  <%= @school.thana_id %>
+</p>
+
+<p>
+  <strong>Union:</strong>
+  <%= @school.union_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @school.title %>
+</p>
+
+<p>
+  <strong>Headmaster name:</strong>
+  <%= @school.headmaster_name %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @school.phone %>
+</p>
+
+<p>
+  <strong>Boyes:</strong>
+  <%= @school.boys %>
+</p>
+
+<p>
+  <strong>Girls:</strong>
+  <%= @school.girls %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @school.created_by %>
+</p>
+
+<%= link_to 'Edit', edit_school_path(@school) %> |
+<%= link_to 'Back', schools_path %>

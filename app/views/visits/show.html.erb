@@ -1,0 +1,17 @@
+<p>
+  <strong>Quarter:</strong>
+  <%= @visit.quarter %>
+</p>
+
+<p>
+  <strong>Visited at:</strong>
+  <%= @visit.visited_at %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @visit.created_by %>
+</p>
+
+<%= link_to 'Edit', edit_visit_path(@visit) %> |
+<%= link_to 'Back', visits_path %>

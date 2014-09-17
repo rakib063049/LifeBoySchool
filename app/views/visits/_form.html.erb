@@ -1,0 +1,24 @@
+<%= simple_form_for(@visit, html: {class: 'col-md-6'}) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+      <%= f.input :school_id, collection: School.all.collect { |c| [c.title, c.id] }, required: true, prompt: 'Please select School' %>
+      <%= f.input :agency_id, collection: Agency.all.collect { |c| [c.name, c.id] }, required: true, prompt: 'Please select Agency' %>
+      <%= f.input :quarter, collection: Visit::QUARTER, required: true, prompt: 'Please select Quarter' %>
+      <%= f.label :visited_at %>
+      <div id="start-date-timepicker" class="input-group date">
+        <%= f.text_field :visited_at, :class => "form-control" %>
+        <span class="input-group-addon add-on"><i class="glyphicon glyphicon-calendar"></i></span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit %>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        $('#visit_visited_at').datetimepicker({format: "YYYY-MM-DD hh:mm:ss", useSeconds: true});
+    });
+</script>

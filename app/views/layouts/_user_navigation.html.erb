@@ -1,0 +1,44 @@
+<% if current_user.present? %>
+    <li class="dropdown user-dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="glyphicon glyphicon-user"></i> <%= current_user.email %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+
+        <li>
+          <%= link_to edit_user_registration_path(current_user) do %>
+              <i class="glyphicon glyphicon-user"></i> Profile
+          <% end %>
+        </li>
+        <li>
+          <%= link_to new_school_path do %>
+              <i class="glyphicon glyphicon-share-alt"></i> Add New School
+          <% end %>
+        </li>
+
+        <li>
+          <%= link_to new_visit_path do %>
+              <i class="glyphicon glyphicon-pencil"></i> Visit School
+          <% end %>
+        </li>
+
+        <li>
+          <%= link_to(destroy_user_session_path, :method => :delete) do %>
+              <i class="glyphicon glyphicon-off"></i> Log Out
+          <% end %>
+        </li>
+      </ul>
+    </li>
+<% else %>
+    <li>
+      <%= link_to user_session_path do %>
+          <i class="glyphicon glyphicon-log-in"></i> Login
+      <% end %>
+    </li>
+    <li>
+      <%= link_to new_user_registration_path do %>
+          <i class="glyphicon glyphicon-pencil"></i> Registration
+      <% end %>
+    </li>
+<% end %>

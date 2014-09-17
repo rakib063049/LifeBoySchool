@@ -1,0 +1,51 @@
+<h1>Listing schools</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Unique</th>
+      <th>Country</th>
+      <th>Division</th>
+      <th>District</th>
+      <th>Thana</th>
+      <th>Union</th>
+      <th>Title</th>
+      <th>Headmaster name</th>
+      <th>Phone</th>
+      <th>Boyes</th>
+      <th>Girls</th>
+      <th>Created by</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @schools.each do |school| %>
+      <tr>
+        <td><%= school.year %></td>
+        <td><%= school.unique_id %></td>
+        <td><%= school.state %></td>
+        <td><%= school.division_id %></td>
+        <td><%= school.district_id %></td>
+        <td><%= school.thana_id %></td>
+        <td><%= school.union_id %></td>
+        <td><%= school.title %></td>
+        <td><%= school.headmaster_name %></td>
+        <td><%= school.phone %></td>
+        <td><%= school.boys %></td>
+        <td><%= school.girls %></td>
+        <td><%= school.created_by %></td>
+        <td><%= link_to 'Show', school %></td>
+        <td><%= link_to 'Edit', edit_school_path(school) %></td>
+        <td><%= link_to 'Destroy', school, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New School', new_school_path %>
