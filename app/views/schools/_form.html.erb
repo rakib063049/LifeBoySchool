@@ -2,18 +2,19 @@
     <%= f.error_notification %>
 
     <div class="form-inputs">
-      <%= f.input :year, collection: 2010..2050, prompt: "Please select Year" %>
+      <%= f.input :year, collection: 2010..2050, prompt: "Please select Year", required: true %>
       <%= f.input :unique_id %>
       <%= f.input :state, :input_html => {:value => f.object.state || 'Bangladesh'}, label: "Country" %>
-      <%= f.input :division_id, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division' %>
-      <%= f.input :district_id, collection: District.all.collect { |c| [c.name, c.id] }, prompt: 'Please select District' %>
-      <%= f.input :thana_id, collection: Thana.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Thana' %>
-      <%= f.input :union_id, collection: Union.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Union' %>
-      <%= f.input :title %>
-      <%= f.input :headmaster_name %>
-      <%= f.input :phone %>
-      <%= f.input :boys %>
-      <%= f.input :girls %>
+      <%= f.input :division_id, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division', required: true %>
+      <%= f.input :district_id, collection: District.all.collect { |c| [c.name, c.id] }, prompt: 'Please select District', required: true %>
+      <%= f.input :thana_id, collection: Thana.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Thana', required: true %>
+      <%= f.input :union_id, collection: Union.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Union', required: true %>
+      <%= f.input :title, required: true %>
+      <%= f.input :headmaster_name, required: true %>
+      <%= f.input :phone, required: true %>
+      <%= f.input :boys, required: true %>
+      <%= f.input :girls, required: true %>
+      <%= f.hidden_field :created_by, value: current_user.id %>
     </div>
 
     <div class="form-actions">

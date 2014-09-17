@@ -1,3 +1,8 @@
 class Visit < ActiveRecord::Base
-  QUARTER = ['Q1 (Month)', 'Q2 (Month)', 'Q3 (Month)', 'Q4 (Month)']
+  belongs_to :school
+  belongs_to :user, foreign_key: :created_by
+  validates :quarter, :visited_at, :school_id, :agency_id, :presence => true
+
+  QUARTER = ['Q1 (JAN-MAR)', 'Q2 (APR-JUN)', 'Q3 (JULY-SEP)', 'Q4 (OCT-DEC)']
+
 end

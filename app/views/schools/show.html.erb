@@ -1,67 +1,33 @@
-<p>
-  <strong>Year:</strong>
-  <%= @school.year %>
-</p>
+<div class="row">
+  <div class="col-sm-6">
+    <h3>School Details</h3>
+    <ul class="list-group">
+      <a href="#" class="list-group-item "><b>Year</b> <span class="pull-right"><%= @school.year %></span></a>
+      <a href="#" class="list-group-item "><b>Unique</b> <span class="pull-right"><%= @school.unique_id %></span></a>
+      <a href="#" class="list-group-item "><b>Country</b> <span class="pull-right"><%= @school.state %></span></a>
+      <a href="#" class="list-group-item "><b>Division</b> <span class="pull-right"><%= @school.division.name %></span></a>
+      <a href="#" class="list-group-item "><b>District</b> <span class="pull-right"><%= @school.district.name %></span></a>
+      <a href="#" class="list-group-item "><b>Thana</b> <span class="pull-right"><%= @school.thana.name %></span></a>
+      <a href="#" class="list-group-item "><b>Union</b> <span class="pull-right"><%= @school.union.name %></span></a>
+      <a href="#" class="list-group-item "><b>Title</b> <span class="pull-right"><%= @school.title %></span></a>
+      <a href="#" class="list-group-item "><b>Headmaster name</b> <span class="pull-right"><%= @school.headmaster_name %></span></a>
+      <a href="#" class="list-group-item "><b>Phone</b> <span class="pull-right"><%= @school.phone %></span></a>
+      <a href="#" class="list-group-item "><b>Boyes</b> <span class="pull-right"><%= @school.boys %></span></a>
+      <a href="#" class="list-group-item "><b>Girls</b> <span class="pull-right"><%= @school.girls %></span></a>
+      <a href="#" class="list-group-item "><b>Total Student</b> <span class="pull-right"><%= @school.total_students %></span></a>
+      <a href="#" class="list-group-item "><b>Data Entry Operator</b> <span class="pull-right"><%= @school.user.try(:name) %></span></a>
+    </ul>
+  </div>
+  <div class="col-sm-6">
+    <h3>School Visiting Details</h3>
+    <% @visits.each do |visit| %>
+        <ul class="list-group">
+          <a href="#" class="list-group-item "><b>Quarter</b> <span class="pull-right"><%= visit.quarter %></span></a>
+          <a href="#" class="list-group-item "><b>Visited at</b> <span class="pull-right"><%= visit.visited_at %></span></a>
+          <a href="#" class="list-group-item "><b>Data Entry Operator</b> <span class="pull-right"><%= visit.user.try(:name) %></span></a>
+        </ul>
+    <% end %>
+  </div>
+</div>
 
-<p>
-  <strong>Unique:</strong>
-  <%= @school.unique_id %>
-</p>
-
-<p>
-  <strong>Country:</strong>
-  <%= @school.state %>
-</p>
-
-<p>
-  <strong>Division:</strong>
-  <%= @school.division_id %>
-</p>
-
-<p>
-  <strong>District:</strong>
-  <%= @school.district_id %>
-</p>
-
-<p>
-  <strong>Thana:</strong>
-  <%= @school.thana_id %>
-</p>
-
-<p>
-  <strong>Union:</strong>
-  <%= @school.union_id %>
-</p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @school.title %>
-</p>
-
-<p>
-  <strong>Headmaster name:</strong>
-  <%= @school.headmaster_name %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @school.phone %>
-</p>
-
-<p>
-  <strong>Boyes:</strong>
-  <%= @school.boys %>
-</p>
-
-<p>
-  <strong>Girls:</strong>
-  <%= @school.girls %>
-</p>
-
-<p>
-  <strong>Created by:</strong>
-  <%= @school.created_by %>
-</p>
-
-<%= link_to 'Edit', edit_school_path(@school) %> |
-<%= link_to 'Back', schools_path %>
+<%= link_to ' Edit ', edit_school_path(@school), :class => "btn btn-sm btn-primary" %>

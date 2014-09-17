@@ -12,11 +12,20 @@
           <% end %>
         </li>
         <li>
+          <%= link_to schools_path do %>
+              <i class="glyphicon glyphicon-list"></i> Schools
+          <% end %>
+        </li>
+        <li>
           <%= link_to new_school_path do %>
               <i class="glyphicon glyphicon-share-alt"></i> Add New School
           <% end %>
         </li>
-
+        <li>
+          <%= link_to visits_path do %>
+              <i class="glyphicon glyphicon-list"></i> Visits
+          <% end %>
+        </li>
         <li>
           <%= link_to new_visit_path do %>
               <i class="glyphicon glyphicon-pencil"></i> Visit School

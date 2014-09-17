@@ -1,4 +1,5 @@
 class VisitsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_visit, only: [:show, :edit, :update, :destroy]
 
   # GET /visits
@@ -14,7 +15,7 @@ class VisitsController < ApplicationController
 
   # GET /visits/new
   def new
-    @visit = Visit.new
+    @visit = Visit.new(school_id: params[:school_id]||nil)
   end
 
   # GET /visits/1/edit
@@ -62,13 +63,13 @@ class VisitsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_visit
-      @visit = Visit.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_visit
+    @visit = Visit.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def visit_params
-      params.require(:visit).permit(:school_id, :quarter, :visited_at, :created_by)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def visit_params
+    params.require(:visit).permit(:school_id, :quarter, :visited_at, :created_by)
+  end
 end
