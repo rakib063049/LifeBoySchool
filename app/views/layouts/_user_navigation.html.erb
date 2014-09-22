@@ -31,6 +31,11 @@
               <i class="glyphicon glyphicon-pencil"></i> Visit School
           <% end %>
         </li>
+        <li>
+          <%= link_to users_admin_index_path do %>
+              <i class="glyphicon glyphicon-user"></i> Users
+          <% end %>
+        </li>
 
         <li>
           <%= link_to(destroy_user_session_path, :method => :delete) do %>
