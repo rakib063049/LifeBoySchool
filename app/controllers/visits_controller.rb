@@ -1,6 +1,6 @@
 class VisitsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_visit, only: [:show, :edit, :update, :destroy]
+  before_action :set_visit, only: [:show, :edit, :update, :approve, :destroy]
 
   # GET /visits
   # GET /visits.json
@@ -52,6 +52,16 @@ class VisitsController < ApplicationController
     end
   end
 
+  def approve
+    respond_to do |format|
+      if @visit.update_attributes!(approve: true)
+        format.html { redirect_to visits_url, notice: 'Visit was successfully approved.' }
+      else
+        format.html { redirect_to visits_url, notice: 'Visit was not approved.' }
+      end
+    end
+  end
+
   # DELETE /visits/1
   # DELETE /visits/1.json
   def destroy
@@ -70,6 +80,6 @@ class VisitsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def visit_params
-    params.require(:visit).permit(:school_id, :agency_id, :quarter, :visited_at, :created_by)
+    params.require(:visit).permit(:school_id, :agency_id, :quarter, :visited_at, :created_by, :approve)
   end
 end

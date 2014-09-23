@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:first_name, :last_name, :title, :email, :password, :password_confirmation) }
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:error] = "You do not have permission to perform that task."
+    redirect_to root_path
+  end
+
   protected
 
   def check_if_admin

@@ -1,7 +1,11 @@
 LifeBoySchool::Application.routes.draw do
   devise_for :users
   resources :users_admin, :controller => 'users'
-  resources :visits
+  resources :visits do
+    member do
+      put 'approve'
+    end
+  end
   resources :schools do
     member do
       get 'visits'

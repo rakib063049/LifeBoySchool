@@ -11,7 +11,7 @@ class SchoolsController < ApplicationController
   # GET /schools/1
   # GET /schools/1.json
   def show
-    @visits = @school.visits
+    @visits = @school.visits.approved
   end
 
   # GET /schools/new

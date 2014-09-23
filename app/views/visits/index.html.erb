@@ -11,6 +11,7 @@
           <th>Visited at</th>
           <th>School</th>
           <th>Created by</th>
+          <th>Status</th>
           <th></th>
           <th></th>
         </tr>
@@ -23,6 +24,17 @@
               <td><%= visit.visited_at %></td>
               <td><%= link_to visit.school.title, visit.school, :class => 'text-info', :target => '_blank' %></td>
               <td><%= visit.user.try(:name) %></td>
+              <td>
+                <% if visit.approve? %>
+                    <%= link_to "Approved", "#", :class => "btn btn-xs btn-default" %>
+                <% else %>
+                    <% if current_user.admin? %>
+                        <%= link_to "Pending", approve_visit_path(visit), method: :put, :class => "btn btn-xs btn-info" %>
+                    <% else %>
+                        <%= link_to "Pending", "#", :class => "btn btn-xs btn-info" %>
+                    <% end %>
+                <% end %>
+              </td>
               <td><%= link_to 'Edit', edit_visit_path(visit) %></td>
               <td><%= link_to 'Destroy', visit, method: :delete, data: {confirm: 'Are you sure?'} %></td>
             </tr>

@@ -5,4 +5,6 @@ class Visit < ActiveRecord::Base
 
   QUARTER = ['Q1 (JAN-MAR)', 'Q2 (APR-JUN)', 'Q3 (JULY-SEP)', 'Q4 (OCT-DEC)']
 
+  scope :approved, -> { where(approve: true) }
+
 end
