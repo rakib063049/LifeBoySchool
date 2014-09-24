@@ -8,6 +8,8 @@ class School < ActiveRecord::Base
 
   validates :year, :state, :division_id, :district_id, :thana_id, :union_id, :title, :headmaster_name, :phone, :boys, :girls, :presence => true
 
+  accepts_nested_attributes_for :visits
+
   def total_students
     [boys.to_i, girls.to_i].sum
   end

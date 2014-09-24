@@ -22,8 +22,10 @@ ActiveAdmin.register Visit do
       f.input :visited_at, as: :datepicker
     end
 
-    f.has_many :images do |cf|
-      cf.input :photo, as: :file
+    f.inputs "Images" do
+      f.has_many :images, allow_destroy: true do |cf|
+        cf.input :photo, as: :file
+      end
     end
 
     f.actions

@@ -1,5 +1,6 @@
 ActiveAdmin.register School do
-  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union_id, :title, :headmaster_name, :phone, :boys, :girls, :created_by
+  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union_id, :title, :headmaster_name,
+                :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, images_attributes: [:id, :photo]]
 
   index do
     selectable_column
@@ -31,6 +32,24 @@ ActiveAdmin.register School do
       f.input :girls
       #f.input :created_by, as: :hidden, value: current_user.id
     end
+
+    f.inputs "Visits" do
+      f.has_many :visits do |vf|
+        vf.inputs "Details" do
+          vf.input :agency_id, as: :select, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
+          vf.input :quarter, as: :select, collection: Visit::QUARTER, prompt: 'Please select Quarter'
+          vf.input :visited_at, as: :datepicker
+        end
+
+        vf.inputs "Images" do
+          vf.has_many :images do |cf|
+            cf.input :photo, as: :file
+          end
+        end
+      end
+    end
+
+
     f.actions
   end
 
