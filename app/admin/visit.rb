@@ -24,5 +24,9 @@ ActiveAdmin.register Visit do
     f.actions
   end
 
+  sidebar "School Details", :only => :show do
+    attributes_table_for visit.school, :title, :headmaster_name, :phone
+  end
+
 end
 
