@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     role?(:admin)
   end
 
+  def operator?
+    role?(:operator)
+  end
+
   def name
     [self.first_name, self.last_name].join(" ")
   end
