@@ -35,5 +35,7 @@ gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 gem 'activeadmin', github: 'activeadmin/active_admin'
 
+gem 'paperclip'
+gem 'aws-sdk'
 
 

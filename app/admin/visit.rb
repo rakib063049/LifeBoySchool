@@ -1,5 +1,5 @@
 ActiveAdmin.register Visit do
-  permit_params :school_id, :agency_id, :quarter, :visited_at, :created_by, :approve
+  permit_params :school_id, :agency_id, :quarter, :visited_at, :created_by, :approve, images_attributes: [:photo]
 
   index do
     selectable_column
@@ -19,8 +19,13 @@ ActiveAdmin.register Visit do
       f.input :school_id, as: :select, collection: School.all.collect { |c| [c.title, c.id] }, prompt: 'Please select School'
       f.input :agency_id, as: :select, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
       f.input :quarter, as: :select, collection: Visit::QUARTER, prompt: 'Please select Quarter'
-      f.input :visited_at, :as => :datepicker
+      f.input :visited_at, as: :datepicker
     end
+
+    f.has_many :images do |cf|
+      cf.input :photo, as: :file
+    end
+
     f.actions
   end
 
@@ -28,5 +33,10 @@ ActiveAdmin.register Visit do
     attributes_table_for visit.school, :title, :headmaster_name, :phone
   end
 
+  sidebar "Photos", :only => :show do
+    attributes_table_for visit.images do
+      row("#{visit.images.count} Photos") { |img| image_tag img.photo.url(:thumb) }
+    end
+  end
 end
 
