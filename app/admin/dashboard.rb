@@ -12,17 +12,21 @@ ActiveAdmin.register_page "Dashboard" do
             column("Uniq Id") { |school| school.unique_id }
             column("HeadMaster Name") { |school| school.headmaster_name }
             column("Phone") { |school| school.phone }
-          end
-        end
-      end
+            column("Phone") { |school| school.status }
 
-      column do
-        panel "Recent Visits" do
-          table_for Visit.all.order('id desc').limit(10) do
-            column("Quarter") { |visit| link_to visit.quarter, admin_visit_path(visit) }
-            column("School Name") { |visit| visit.school.title }
-            column("Agency Name") { |visit| visit.agency.name }
-            column("Visited At") { |visit| visit.visited_at }
+            column :visits do |school|
+              table_for school.visits.order('id ASC') do
+                column :id do |visit|
+                  link_to visit.id, [:admin, visit]
+                end
+                column :quarter
+                column :agency_id do |visit|
+                  visit.agency.name
+                end
+                column :visited_at
+              end
+            end
+
           end
         end
       end

@@ -10,6 +10,16 @@ class School < ActiveRecord::Base
 
   accepts_nested_attributes_for :visits
 
+  scope :pending, -> { where(status: 'pending') }
+  scope :approved, -> { where(status: 'approved') }
+
+  state_machine :status, :initial => :pending do
+    event :approve do
+      transition :pending => :approved
+    end
+  end
+
+
   def total_students
     [boys.to_i, girls.to_i].sum
   end

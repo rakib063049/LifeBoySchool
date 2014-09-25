@@ -38,4 +38,4 @@ gem 'activeadmin', github: 'activeadmin/active_admin'
 gem 'paperclip'
 gem 'aws-sdk'
 
-
+gem 'state_machine'

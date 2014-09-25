@@ -1,5 +1,6 @@
 ActiveAdmin.register Visit do
   permit_params :school_id, :agency_id, :quarter, :visited_at, :created_by, :approve, images_attributes: [:photo]
+  menu false
 
   index do
     selectable_column

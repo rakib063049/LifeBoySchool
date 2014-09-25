@@ -2,6 +2,7 @@ ActiveAdmin.register School do
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union_id, :title, :headmaster_name,
                 :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, images_attributes: [:id, :photo]]
 
+  config.filters = false
   index do
     selectable_column
     id_column
@@ -10,11 +11,22 @@ ActiveAdmin.register School do
     column :headmaster_name
     column :phone
     column :created_at
+    column :status
+
+    column :visits do |school|
+      table_for school.visits.order('id ASC') do
+        column :id do |visit|
+          link_to visit.id, [:admin, visit]
+        end
+        column :quarter
+        column :agency_id do |visit|
+          visit.agency.name
+        end
+        column :visited_at
+      end
+    end
     actions
   end
-
-  filter :title
-  filter :unique_id
 
   form do |f|
     f.inputs "School Details" do
@@ -51,6 +63,18 @@ ActiveAdmin.register School do
 
 
     f.actions
+  end
+
+
+  action_item :only => [:show], :if => proc { current_user.admin? && resource.pending? } do
+    link_to('Approve!', approve_admin_school_path(resource), method: :put)
+  end
+
+  member_action :approve, :method => :put do
+    school = School.find(params[:id])
+    school.approve!
+    flash[:notice] = "School has been Approved!"
+    redirect_to [:admin, :schools]
   end
 
 end
