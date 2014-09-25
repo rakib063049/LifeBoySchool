@@ -31,7 +31,6 @@ ActiveAdmin.register School do
   form do |f|
     f.inputs "School Details" do
       f.input :year, as: :select, collection: 2010..2050, prompt: "Please select Year"
-      f.input :unique_id
       f.input :state, :input_html => {:value => f.object.state || 'Bangladesh'}, label: "Country"
       f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division'
       f.input :district_id, as: :select, collection: District.all.collect { |c| [c.name, c.id] }, prompt: 'Please select District'
