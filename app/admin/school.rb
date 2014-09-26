@@ -1,5 +1,5 @@
 ActiveAdmin.register School do
-  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union_id, :title, :headmaster_name,
+  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name,
                 :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, images_attributes: [:id, :photo]]
 
   config.filters = false
@@ -35,7 +35,7 @@ ActiveAdmin.register School do
       f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division'
       f.input :district_id, as: :select, collection: District.all.collect { |c| [c.name, c.id] }, prompt: 'Please select District'
       f.input :thana_id, as: :select, collection: Thana.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Thana'
-      f.input :union_id, as: :select, collection: Union.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Union'
+      f.input :union
       f.input :title
       f.input :headmaster_name
       f.input :phone

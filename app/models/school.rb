@@ -2,11 +2,10 @@ class School < ActiveRecord::Base
   belongs_to :division
   belongs_to :district
   belongs_to :thana
-  belongs_to :union
   belongs_to :user, foreign_key: :created_by
   has_many :visits
 
-  validates :year, :state, :division_id, :district_id, :thana_id, :union_id, :title, :headmaster_name, :phone, :boys, :girls, :presence => true
+  validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :phone, :boys, :girls, :presence => true
 
   accepts_nested_attributes_for :visits
 

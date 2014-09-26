@@ -1,5 +1,6 @@
 ActiveAdmin.register Division do
   permit_params :name
+  menu false
 
   index do
     selectable_column

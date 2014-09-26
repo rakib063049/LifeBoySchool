@@ -8,7 +8,7 @@
       <%= f.input :division_id, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division', required: true %>
       <%= f.input :district_id, collection: District.all.collect { |c| [c.name, c.id] }, prompt: 'Please select District', required: true %>
       <%= f.input :thana_id, collection: Thana.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Thana', required: true %>
-      <%= f.input :union_id, collection: Union.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Union', required: true %>
+      <%= f.input :union, required: true %>
       <%= f.input :title, required: true %>
       <%= f.input :headmaster_name, required: true %>
       <%= f.input :phone, required: true %>

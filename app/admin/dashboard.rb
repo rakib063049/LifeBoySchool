@@ -16,7 +16,7 @@ ActiveAdmin.register_page "Dashboard" do
             column("Division") { |school| school.division.try(:name) }
             column("District") { |school| school.district.try(:name) }
             column("Thana") { |school| school.thana.try(:name) }
-            column("Union") { |school| school.union.try(:name) }
+            column("Union") { |school| school.union }
 
             column :visits do |school|
               table_for school.visits.order('id ASC') do

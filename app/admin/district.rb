@@ -1,5 +1,6 @@
 ActiveAdmin.register District do
   permit_params :name, :division_id
+  menu false
 
   index do
     selectable_column

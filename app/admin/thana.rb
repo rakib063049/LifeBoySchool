@@ -1,5 +1,6 @@
 ActiveAdmin.register Thana do
   permit_params :name, :district_id
+  menu false
 
   index do
     selectable_column
