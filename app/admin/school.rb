@@ -1,16 +1,23 @@
 ActiveAdmin.register School do
-  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name,
+  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter,
                 :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, images_attributes: [:id, :photo]]
 
   config.filters = false
   index do
     selectable_column
     id_column
-    column :title
+    column :year
+    column :agency
+    column :quarter
     column :unique_id
+    column :state, label: 'Country'
+    column :division
+    column :district
+    column :thana
+    column :union
+    column :title, label: 'School Name'
     column :headmaster_name
     column :phone
-    column :created_at
     column :status
     column :boys
     column :girls
@@ -19,10 +26,6 @@ ActiveAdmin.register School do
       table_for school.visits.order('id ASC') do
         column :id do |visit|
           link_to visit.id, [:admin, visit]
-        end
-        column :quarter
-        column :agency_id do |visit|
-          visit.agency.name
         end
         column :visited_at
       end
@@ -33,6 +36,8 @@ ActiveAdmin.register School do
   form do |f|
     f.inputs "School Details" do
       f.input :year, as: :select, collection: 2014..2015, prompt: "Please select Year"
+      f.input :agency_id, as: :select, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
+      f.input :quarter, as: :select, collection: Visit::QUARTER, prompt: 'Please select Quarter'
       f.input :state, :input_html => {:value => f.object.state || 'Bangladesh'}, label: "Country"
       f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division'
       f.input :district_id, as: :select, :input_html => {'data-option-dependent' => true,
@@ -56,8 +61,6 @@ ActiveAdmin.register School do
     f.inputs "Visits" do
       f.has_many :visits do |vf|
         vf.inputs "Details" do
-          vf.input :agency_id, as: :select, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
-          vf.input :quarter, as: :select, collection: Visit::QUARTER, prompt: 'Please select Quarter'
           vf.input :visited_at, as: :datepicker
         end
 
