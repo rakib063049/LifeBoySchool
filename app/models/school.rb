@@ -32,4 +32,8 @@ class School < ActiveRecord::Base
   def total_students
     [boys.to_i, girls.to_i].sum
   end
+
+  def created_by
+    self.user.try(:name)
+  end
 end

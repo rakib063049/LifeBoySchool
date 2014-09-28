@@ -12,7 +12,9 @@ ActiveAdmin.register School do
     column :phone
     column :created_at
     column :status
-
+    column :boys
+    column :girls
+    column :total_students
     column :visits do |school|
       table_for school.visits.order('id ASC') do
         column :id do |visit|
@@ -30,18 +32,25 @@ ActiveAdmin.register School do
 
   form do |f|
     f.inputs "School Details" do
-      f.input :year, as: :select, collection: 2010..2050, prompt: "Please select Year"
+      f.input :year, as: :select, collection: 2014..2015, prompt: "Please select Year"
       f.input :state, :input_html => {:value => f.object.state || 'Bangladesh'}, label: "Country"
       f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division'
-      f.input :district_id, as: :select, collection: District.all.collect { |c| [c.name, c.id] }, prompt: 'Please select District'
-      f.input :thana_id, as: :select, collection: Thana.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Thana'
+      f.input :district_id, as: :select, :input_html => {'data-option-dependent' => true,
+                                                         'data-option-url' => '/schools/districts?division_id=:school_division_id',
+                                                         'data-option-observed' => 'school_division_id'}, prompt: 'Please select District',
+              collection: (f.object.division ? f.object.division.districts.collect { |district| [district.name, district.id] } : [])
+      f.input :thana_id, as: :select, :input_html => {'data-option-dependent' => true,
+                                                      'data-option-url' => '/schools/thanas?district_id=:school_district_id',
+                                                      'data-option-observed' => 'school_district_id'}, prompt: 'Please select Thana',
+              collection: (f.object.division ? f.object.district.thanas.collect { |thana| [thana.name, thana.id] } : [])
+
       f.input :union
-      f.input :title
+      f.input :title, label: 'School Name'
       f.input :headmaster_name
       f.input :phone
       f.input :boys
       f.input :girls
-      #f.input :created_by, as: :hidden, value: current_user.id
+      f.input :created_by, as: :hidden, :input_html => {value: current_user.id}
     end
 
     f.inputs "Visits" do

@@ -11,6 +11,10 @@ LifeBoySchool::Application.routes.draw do
     member do
       get 'visits'
     end
+    collection do
+      get 'districts'
+      get 'thanas'
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

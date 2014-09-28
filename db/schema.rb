@@ -97,6 +97,13 @@ ActiveRecord::Schema.define(version: 20140926044849) do
     t.string   "code"
   end
 
+  create_table "unions", force: true do |t|
+    t.string   "name"
+    t.integer  "thana_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "first_name"
     t.string   "last_name"
