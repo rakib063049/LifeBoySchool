@@ -12,8 +12,8 @@ ActiveAdmin.register_page "Dashboard" do
             column :year
             column :agency
             column :quarter
-            column :unique_id
-            column :state, label: 'Country'
+            column("School Id") { |school| school.unique_id }
+            column("Country") { |school| school.state }
             column :division
             column :district
             column :thana
@@ -21,7 +21,6 @@ ActiveAdmin.register_page "Dashboard" do
             column("School Name") { |school| link_to school.title, admin_school_path(school) }
             column :headmaster_name
             column :phone
-            column :status
             column :boys
             column :girls
             column :total_students

@@ -9,13 +9,13 @@ ActiveAdmin.register School do
     column :year
     column :agency
     column :quarter
-    column :unique_id
-    column :state, label: 'Country'
+    column("School Id") { |school| school.unique_id }
+    column("Country") { |school| school.state }
     column :division
     column :district
     column :thana
     column :union
-    column :title, label: 'School Name'
+    column("School Name") { |school| school.title }
     column :headmaster_name
     column :phone
     column :status
