@@ -12,26 +12,26 @@ ActiveAdmin.register_page "Dashboard" do
             column :year
             column :agency
             column :quarter
-            column("School Id") { |school| school.unique_id }
-            column("Country") { |school| school.state }
+            #column("School Id") { |school| school.unique_id }
+            #column("Country") { |school| school.state }
             column :division
             column :district
             column :thana
             column :union
             column("School Name") { |school| link_to school.title, admin_school_path(school) }
-            column :headmaster_name
+            #column :headmaster_name
             column :phone
-            column :boys
-            column :girls
+            #column :boys
+            #column :girls
             column :total_students
-            column :visits do |school|
-              table_for school.visits.order('id ASC') do
-                column :id do |visit|
-                  link_to visit.id, [:admin, visit]
-                end
-                column :visited_at
-              end
-            end
+            #column :visits do |school|
+            #  table_for school.visits.order('id ASC') do
+            #    column :id do |visit|
+            #      link_to visit.id, [:admin, visit]
+            #    end
+            #    column :visited_at
+            #  end
+            #end
 
           end
         end

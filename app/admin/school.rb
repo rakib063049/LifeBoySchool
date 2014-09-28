@@ -6,25 +6,24 @@ ActiveAdmin.register School do
   config.filters = false
   index do
     selectable_column
-    #id_column
     column :year
     column :agency
     column :quarter
-    column("School Id") { |school| school.unique_id }
-    column("Country") { |school| school.state }
+    #column("School Id") { |school| school.unique_id }
+    #column("Country") { |school| school.state }
     column :division
-    #column :district
-    #column :thana
-    #column :union
+    column :district
+    column :thana
+    column :union
     column("School Name") { |school| school.title }
-    column :headmaster
-    #column :phone
-    #column :mobile
-    #column :status
+    #column :headmaster
+    column :phone
+    column :mobile
+    column :status
     #column :boys
     #column :girls
     column :total_students
-    column :data_entry_operator
+    #column :data_entry_operator
     #column :visits do |school|
     #  table_for school.visits.order('id ASC') do
     #    column :id do |visit|
