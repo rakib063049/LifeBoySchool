@@ -60,9 +60,7 @@ ActiveAdmin.register School do
 
     f.inputs "Visits" do
       f.has_many :visits do |vf|
-        vf.inputs "Details" do
-          vf.input :visited_at, as: :datepicker
-        end
+        vf.input :visited_at, as: :datepicker
 
         vf.inputs "Images" do
           vf.has_many :images do |cf|
