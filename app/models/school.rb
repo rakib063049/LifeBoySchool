@@ -5,10 +5,12 @@ class School < ActiveRecord::Base
   belongs_to :agency
   belongs_to :user, foreign_key: :created_by
   has_many :visits
+  has_many :completion_certificates
 
   validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls, :presence => true
 
   accepts_nested_attributes_for :visits
+  accepts_nested_attributes_for :completion_certificates
 
   before_create :set_uniq_id
 
@@ -36,5 +38,9 @@ class School < ActiveRecord::Base
 
   def created_by
     self.user.try(:name)
+  end
+
+  def headmaster
+    [self.honorific, self.headmaster_name].join(" ")
   end
 end

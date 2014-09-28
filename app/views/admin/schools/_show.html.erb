@@ -1,0 +1,85 @@
+<div class="panel">
+  <h3>School Details</h3>
+
+  <div class="panel_contents">
+    <div class="attributes_table user" id="attributes_table_user_1">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr class="row">
+          <th>Year</th>
+          <td><%= @school.year %></td>
+        </tr>
+        <tr class="row">
+          <th>agency</th>
+          <td><%= @school.agency.try(:name) %></td>
+        </tr>
+        <tr class="row">
+          <th>quarter</th>
+          <td><%= @school.quarter %></td>
+        </tr>
+        <tr class="row">
+          <th>unique_id</th>
+          <td><%= @school.unique_id %></td>
+        </tr>
+        <tr class="row">
+          <th>Year</th>
+          <td><%= @school.state %></td>
+        </tr>
+        <tr class="row">
+          <th>division</th>
+          <td><%= @school.division.try(:name) %></td>
+        </tr>
+        <tr class="row">
+          <th>district</th>
+          <td><%= @school.district.try(:name) %></td>
+        </tr>
+        <tr class="row">
+          <th>thana</th>
+          <td><%= @school.thana.try(:name) %></td>
+        </tr>
+        <tr class="row">
+          <th>union</th>
+          <td><%= @school.union %></td>
+        </tr>
+        <tr class="row">
+          <th>title</th>
+          <td><%= @school.title %></td>
+        </tr>
+        <tr class="row">
+          <th>headmaster</th>
+          <td><%= @school.headmaster %></td>
+        </tr>
+        <tr class="row">
+          <th>phone</th>
+          <td><%= @school.phone %></td>
+        </tr>
+        <tr class="row">
+          <th>mobile</th>
+          <td><%= @school.mobile %></td>
+        </tr>
+        <tr class="row">
+          <th>status</th>
+          <td><%= @school.status %></td>
+        </tr>
+        <tr class="row">
+          <th>boys</th>
+          <td><%= @school.boys %></td>
+        </tr>
+        <tr class="row">
+          <th>girls</th>
+          <td><%= @school.girls %></td>
+        </tr>
+        <tr class="row">
+          <th>total_students</th>
+          <td><%= @school.total_students %></td>
+        </tr>
+        <tr class="row">
+          <th>data_entry_operator</th>
+          <td><%= @school.data_entry_operator %></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

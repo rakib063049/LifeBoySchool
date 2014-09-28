@@ -42,7 +42,7 @@ jQuery(document).ready(function() {
                 return $("select#"+ dom_id).val();
             });
 
-//            observer.empty().append(prompt);
+            observer.empty();//.append(prompt);
 
             $.getJSON(url, function(data) {
                 $.each(data, function(i, object) {

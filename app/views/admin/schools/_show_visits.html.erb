@@ -1,0 +1,36 @@
+<div class="panel_contents">
+  <div class="attributes_table">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+      <% @school.visits.each do |visit| %>
+          <tr class="row">
+            <b>Visit Date  </b><%= visit.visited_at %></tr>
+          <tr class="row">
+            <th>Acknowledgement Certificates</th>
+          </tr>
+          <tr>
+            <td>
+              <% visit.acknowledgement_certificates.each do |img| %>
+                  <%= image_tag img.photo.url(:thumb) %>
+              <% end %>
+            </td>
+          </tr>
+          <tr class="row">
+            <th>Photos</th>
+          </tr>
+          <tr>
+            <td>
+              <% visit.images.each do |img| %>
+                  <%= image_tag img.photo.url(:thumb) %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,19 @@
+<div class="panel_contents">
+  <div class="attributes_table">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+      <tr>
+        <td>
+          <% @school.completion_certificates.each do |img| %>
+              <%= image_tag img.photo.url(:thumb) %>
+          <% end %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+

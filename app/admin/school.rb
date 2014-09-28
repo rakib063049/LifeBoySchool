@@ -1,36 +1,51 @@
 ActiveAdmin.register School do
-  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter,
-                :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, images_attributes: [:id, :photo]]
+  permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
+                :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo],
+                                                                        images_attributes: [:id, :photo]], completion_certificates_attributes: [:id, :photo]
 
   config.filters = false
   index do
     selectable_column
-    id_column
+    #id_column
     column :year
     column :agency
     column :quarter
     column("School Id") { |school| school.unique_id }
     column("Country") { |school| school.state }
     column :division
-    column :district
-    column :thana
-    column :union
+    #column :district
+    #column :thana
+    #column :union
     column("School Name") { |school| school.title }
-    column :headmaster_name
-    column :phone
-    column :status
-    column :boys
-    column :girls
+    column :headmaster
+    #column :phone
+    #column :mobile
+    #column :status
+    #column :boys
+    #column :girls
     column :total_students
-    column :visits do |school|
-      table_for school.visits.order('id ASC') do
-        column :id do |visit|
-          link_to visit.id, [:admin, visit]
-        end
-        column :visited_at
-      end
-    end
+    column :data_entry_operator
+    #column :visits do |school|
+    #  table_for school.visits.order('id ASC') do
+    #    column :id do |visit|
+    #      link_to visit.id, [:admin, visit]
+    #    end
+    #    column :visited_at
+    #  end
+    #end
     actions
+  end
+
+  show do
+    render "show"
+  end
+
+  sidebar "Completion Certificate", :only => :show do
+    render "completion_certificates"
+  end
+
+  sidebar "Visit Details", :only => :show do
+    render "show_visits"
   end
 
   form do |f|
@@ -51,17 +66,29 @@ ActiveAdmin.register School do
 
       f.input :union
       f.input :title, label: 'School Name'
+      f.inputs "Completion Certificate" do
+        f.has_many :completion_certificates do |cf|
+          cf.input :photo, as: :file
+        end
+      end
+      f.input :honorific, label: 'Headmaster Title', as: :select, collection: ["Mr.", "Ms.", "Mrs."], prompt: "Please select title"
       f.input :headmaster_name
       f.input :phone
+      f.input :mobile
       f.input :boys
       f.input :girls
+      f.input :data_entry_operator
       f.input :created_by, as: :hidden, :input_html => {value: current_user.id}
     end
 
     f.inputs "Visits" do
       f.has_many :visits do |vf|
         vf.input :visited_at, as: :datepicker
-
+        vf.inputs "Acknowledgement Certificate" do
+          vf.has_many :acknowledgement_certificates do |cf|
+            cf.input :photo, as: :file
+          end
+        end
         vf.inputs "Images" do
           vf.has_many :images do |cf|
             cf.input :photo, as: :file
