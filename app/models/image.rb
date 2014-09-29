@@ -2,8 +2,7 @@ class Image < ActiveRecord::Base
   belongs_to :visit
 
   has_attached_file :photo,
-                    :styles => {thumb: '100x100>'},
-                    :storage => :s3
+                    :styles => {thumb: '100x100>'}
 
 
   # Validate the attached image is image/jpg, image/png, etc
