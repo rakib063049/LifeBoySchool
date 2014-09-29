@@ -9,8 +9,8 @@ class Visit < ActiveRecord::Base
 
   scope :approved, -> { where(approve: true) }
 
-  accepts_nested_attributes_for :images
-  accepts_nested_attributes_for :acknowledgement_certificates
+  accepts_nested_attributes_for :images, allow_destroy: true
+  accepts_nested_attributes_for :acknowledgement_certificates, allow_destroy: true
 
 
 end

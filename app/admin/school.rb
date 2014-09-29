@@ -1,7 +1,7 @@
 ActiveAdmin.register School do
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
-                :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo],
-                                                                        images_attributes: [:id, :photo]], completion_certificates_attributes: [:id, :photo]
+                :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy],
+                                                                        images_attributes: [:id, :photo, :_destroy]], completion_certificates_attributes: [:id, :photo, :_destroy]
 
   filter :year
   filter :created_at, label: 'Data Entry Date'
@@ -65,8 +65,8 @@ ActiveAdmin.register School do
       f.input :union
       f.input :title, label: 'School Name'
       f.inputs "Completion Certificate" do
-        f.has_many :completion_certificates do |cf|
-          cf.input :photo, as: :file
+        f.has_many :completion_certificates, allow_destroy: true do |cf|
+          cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
         end
       end
       f.input :honorific, label: 'Headmaster Title', as: :select, collection: ["Mr.", "Ms.", "Mrs."], prompt: "Please select title"
@@ -83,13 +83,13 @@ ActiveAdmin.register School do
       f.has_many :visits do |vf|
         vf.input :visited_at, as: :datepicker
         vf.inputs "Acknowledgement Certificate" do
-          vf.has_many :acknowledgement_certificates do |cf|
-            cf.input :photo, as: :file
+          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
           end
         end
         vf.inputs "Images" do
-          vf.has_many :images do |cf|
-            cf.input :photo, as: :file
+          vf.has_many :images, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
           end
         end
       end

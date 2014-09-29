@@ -10,7 +10,7 @@ class School < ActiveRecord::Base
   validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls, :presence => true
 
   accepts_nested_attributes_for :visits
-  accepts_nested_attributes_for :completion_certificates
+  accepts_nested_attributes_for :completion_certificates, allow_destroy: true
 
   before_create :set_uniq_id
 
