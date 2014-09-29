@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-LifeBoySchool::Application.load_tasks
+LifebuoySchool::Application.load_tasks

@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-LifeBoySchool::Application.config.secret_key_base = '6cc0c3da920a5bcf0f65e52a73c1376cbc39cff7c83c2a09a44eefd9eff4ec03da834ece7eba315401f3541e2957bef49284332a567241a597ddb1006bc38af8'
+LifebuoySchool::Application.config.secret_key_base = '6cc0c3da920a5bcf0f65e52a73c1376cbc39cff7c83c2a09a44eefd9eff4ec03da834ece7eba315401f3541e2957bef49284332a567241a597ddb1006bc38af8'

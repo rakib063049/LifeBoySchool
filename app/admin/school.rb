@@ -73,7 +73,7 @@ ActiveAdmin.register School do
       f.input :honorific, label: 'Headmaster Title', as: :select, collection: ["Mr.", "Ms.", "Mrs."], prompt: "Please select title"
       f.input :headmaster_name
       f.input :phone
-      f.input :mobile
+      f.input :mobile, :input_html => {:value => f.object.mobile || '+88'}
       f.input :boys
       f.input :girls
       f.input :data_entry_operator

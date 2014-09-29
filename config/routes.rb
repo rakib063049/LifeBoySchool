@@ -1,4 +1,4 @@
-LifeBoySchool::Application.routes.draw do
+LifebuoySchool::Application.routes.draw do
   devise_for :users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   resources :users_admin, :controller => 'users'
