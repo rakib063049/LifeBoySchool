@@ -3,35 +3,34 @@ ActiveAdmin.register School do
                 :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo],
                                                                         images_attributes: [:id, :photo]], completion_certificates_attributes: [:id, :photo]
 
-  config.filters = false
+  filter :year
+  filter :created_at, label: 'Data Entry Date'
+  filter :division
+  filter :district
+  filter :title
+
+
   index do
     selectable_column
     column :year
-    column :agency
     column :quarter
-    #column("School Id") { |school| school.unique_id }
-    #column("Country") { |school| school.state }
+    column("Unique ID No of Schools") { |school| school.unique_id }
+    column("Implementing Agency") { |school| school.agency.try(:name) }
+    column("Country") { |school| school.state }
     column :division
     column :district
     column :thana
     column :union
-    column("School Name") { |school| school.title }
-    #column :headmaster
+    column("Name Of School") { |school| link_to school.title, admin_school_path(school) }
+    column("Name Of the School Authority") { |school| school.headmaster }
     column :phone
     column :mobile
     column :status
-    #column :boys
-    #column :girls
-    column :total_students
-    #column :data_entry_operator
-    #column :visits do |school|
-    #  table_for school.visits.order('id ASC') do
-    #    column :id do |visit|
-    #      link_to visit.id, [:admin, visit]
-    #    end
-    #    column :visited_at
-    #  end
-    #end
+    column("Male") { |school| school.boys }
+    column("Female") { |school| school.girls }
+    column("Total") { |school| school.total_students }
+    column("Data Entry Operator") { |school| school.data_entry_operator }
+    column("Data Entry Date") { |school| school.created_at }
     actions
   end
 
