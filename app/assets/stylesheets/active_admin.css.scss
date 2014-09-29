@@ -19,7 +19,11 @@ form fieldset > ol > li fieldset:not(.has_many_fields) ol li {
   margin: 10px 10px;
 }
 
+#header {
+  padding: 0px !important;
+}
+
 #site_title_image {
-  height: 40px;
-  width: 120px;
+  height: 65px;
+  width: 215px;
 }
