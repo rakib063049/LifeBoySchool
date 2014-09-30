@@ -7,7 +7,7 @@
 </tr>
 <tr>
   <td>
-    <% if visit.acknowledgement_certificates.present? %>
+    <% if visit.try(:acknowledgement_certificates).present? %>
         <% visit.acknowledgement_certificates.each do |img| %>
             <%= link_to img.photo.url, target: '_blank' do %>
                 <%= image_tag img.photo.url(:thumb) %>
@@ -21,7 +21,7 @@
 </tr>
 <tr>
   <td>
-    <% if visit.images.present? %>
+    <% if visit.try(:images).present? %>
         <% visit.images.each do |img| %>
             <%= link_to img.photo.url, target: '_blank' do %>
                 <%= image_tag img.photo.url(:thumb) %>
