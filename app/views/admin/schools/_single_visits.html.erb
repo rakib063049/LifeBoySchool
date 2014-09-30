@@ -7,9 +7,11 @@
 </tr>
 <tr>
   <td>
-    <% visit.acknowledgement_certificates.each do |img| %>
-        <%= link_to img.photo.url, target: '_blank' do %>
-            <%= image_tag img.photo.url(:thumb) %>
+    <% if visit.acknowledgement_certificates.present? %>
+        <% visit.acknowledgement_certificates.each do |img| %>
+            <%= link_to img.photo.url, target: '_blank' do %>
+                <%= image_tag img.photo.url(:thumb) %>
+            <% end %>
         <% end %>
     <% end %>
   </td>
@@ -19,9 +21,11 @@
 </tr>
 <tr>
   <td>
-    <% visit.images.each do |img| %>
-        <%= link_to img.photo.url, target: '_blank' do %>
-            <%= image_tag img.photo.url(:thumb) %>
+    <% if visit.images.present? %>
+        <% visit.images.each do |img| %>
+            <%= link_to img.photo.url, target: '_blank' do %>
+                <%= image_tag img.photo.url(:thumb) %>
+            <% end %>
         <% end %>
     <% end %>
   </td>
