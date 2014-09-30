@@ -1,0 +1,32 @@
+<tr>
+  <td><b style="font-size: 14px; color: #5e6469;">Visit#<%= step %></b></td>
+</tr>
+<td><b>Visit Date </b><%= visit.visited_at %></td>
+<tr class="row">
+  <th>Acknowledgement Certificates</th>
+</tr>
+<tr>
+  <td>
+    <% visit.acknowledgement_certificates.each do |img| %>
+        <%= link_to img.photo.url do %>
+            <%= image_tag img.photo.url(:thumb) %>
+        <% end %>
+    <% end %>
+  </td>
+</tr>
+<tr class="row">
+  <th>Photos</th>
+</tr>
+<tr>
+  <td>
+    <% visit.images.each do |img| %>
+        <%= link_to img.photo.url do %>
+            <%= image_tag img.photo.url(:thumb) %>
+        <% end %>
+    <% end %>
+  </td>
+</tr>
+
+
+
+

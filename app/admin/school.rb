@@ -1,7 +1,11 @@
 ActiveAdmin.register School do
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
-                :phone, :boys, :girls, :created_by, visits_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy],
-                                                                        images_attributes: [:id, :photo, :_destroy]], completion_certificates_attributes: [:id, :photo, :_destroy]
+                :phone, :boys, :girls, :created_by,
+                first_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
+                second_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
+                third_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
+                fourth_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
+                completion_certificates_attributes: [:id, :photo, :_destroy]
 
   filter :year
   filter :created_at, label: 'Data Entry Date'
@@ -79,8 +83,50 @@ ActiveAdmin.register School do
       f.input :created_by, as: :hidden, :input_html => {value: current_user.id}
     end
 
-    f.inputs "Visits" do
-      f.has_many :visits do |vf|
+    f.inputs "Visits Information" do
+      f.inputs "Visit#1", for: [:first_visit, f.object.first_visit] do |vf|
+        vf.input :visited_at, as: :datepicker
+        vf.inputs "Acknowledgement Certificate" do
+          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          end
+        end
+        vf.inputs "Images" do
+          vf.has_many :images, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          end
+        end
+      end
+
+      f.inputs "Visit#2", for: [:second_visit, f.object.second_visit] do |vf|
+        vf.input :visited_at, as: :datepicker
+        vf.inputs "Acknowledgement Certificate" do
+          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          end
+        end
+        vf.inputs "Images" do
+          vf.has_many :images, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          end
+        end
+      end
+
+      f.inputs "Visit#3", for: [:third_visit, f.object.third_visit] do |vf|
+        vf.input :visited_at, as: :datepicker
+        vf.inputs "Acknowledgement Certificate" do
+          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          end
+        end
+        vf.inputs "Images" do
+          vf.has_many :images, allow_destroy: true do |cf|
+            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          end
+        end
+      end
+
+      f.inputs "Visit#4", for: [:fourth_visit, f.object.fourth_visit] do |vf|
         vf.input :visited_at, as: :datepicker
         vf.inputs "Acknowledgement Certificate" do
           vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
@@ -102,6 +148,16 @@ ActiveAdmin.register School do
 
   action_item :only => [:show], :if => proc { current_user.admin? && resource.pending? } do
     link_to('Approve!', approve_admin_school_path(resource), method: :put)
+  end
+
+  controller do
+    def new
+      @school = School.new
+      @school.build_first_visit
+      @school.build_second_visit
+      @school.build_third_visit
+      @school.build_fourth_visit
+    end
   end
 
   member_action :approve, :method => :put do

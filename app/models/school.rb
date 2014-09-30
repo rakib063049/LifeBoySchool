@@ -4,12 +4,20 @@ class School < ActiveRecord::Base
   belongs_to :thana
   belongs_to :agency
   belongs_to :user, foreign_key: :created_by
-  has_many :visits
   has_many :completion_certificates
+  #has_many :visits
+  has_one :first_visit
+  has_one :second_visit
+  has_one :third_visit
+  has_one :fourth_visit
+
 
   validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls, :presence => true
 
-  accepts_nested_attributes_for :visits
+  accepts_nested_attributes_for :first_visit
+  accepts_nested_attributes_for :second_visit
+  accepts_nested_attributes_for :third_visit
+  accepts_nested_attributes_for :fourth_visit
   accepts_nested_attributes_for :completion_certificates, allow_destroy: true
 
   before_create :set_uniq_id

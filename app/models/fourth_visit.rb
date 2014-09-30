@@ -1,0 +1,2 @@
+class FourthVisit < Visit
+end

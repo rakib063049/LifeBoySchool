@@ -5,7 +5,9 @@
       <tr>
         <td>
           <% @school.completion_certificates.each do |img| %>
-              <%= image_tag img.photo.url(:thumb) %>
+              <%= link_to img.photo.url do %>
+                  <%= image_tag img.photo.url(:thumb) %>
+              <% end %>
           <% end %>
         </td>
       </tr>

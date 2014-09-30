@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928202808) do
+ActiveRecord::Schema.define(version: 20140930063513) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -62,16 +62,8 @@ ActiveRecord::Schema.define(version: 20140928202808) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.integer  "school_id"
-    t.string   "completion_certificate_file_name"
-    t.string   "completion_certificate_content_type"
-    t.integer  "completion_certificate_file_size"
-    t.datetime "completion_certificate_updated_at"
-    t.string   "acknowledgement_certificate_file_name"
-    t.string   "acknowledgement_certificate_content_type"
-    t.integer  "acknowledgement_certificate_file_size"
-    t.datetime "acknowledgement_certificate_updated_at"
     t.string   "type"
+    t.integer  "school_id"
   end
 
   create_table "roles", force: true do |t|
@@ -151,6 +143,7 @@ ActiveRecord::Schema.define(version: 20140928202808) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "approve",    default: false
+    t.string   "type"
   end
 
 end

@@ -1,0 +1,2 @@
+class FirstVisit < Visit
+end
