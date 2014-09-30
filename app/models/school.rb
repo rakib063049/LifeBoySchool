@@ -5,14 +5,16 @@ class School < ActiveRecord::Base
   belongs_to :agency
   belongs_to :user, foreign_key: :created_by
   has_many :completion_certificates
-  #has_many :visits
   has_one :first_visit
   has_one :second_visit
   has_one :third_visit
   has_one :fourth_visit
 
 
-  validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls, :presence => true
+  validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls, :phone,
+            :agency_id, :quarter, :honorific, :mobile, :data_entry_operator, :presence => true
+
+  validates :mobile, length: {minimum: 13, maximum: 14, message: 'Mobile Number should be 11 digits'}
 
   accepts_nested_attributes_for :first_visit
   accepts_nested_attributes_for :second_visit

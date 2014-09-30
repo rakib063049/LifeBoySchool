@@ -1,4 +1,5 @@
 ActiveAdmin.register School do
+  menu priority: 1, label: "Dashboard"
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
                 :phone, :boys, :girls, :created_by,
                 first_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
