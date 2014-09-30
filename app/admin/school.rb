@@ -40,10 +40,10 @@ ActiveAdmin.register School do
       table_for school.first_visit do
         column :visited_at
         column :certificate do
-          school.first_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.first_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
         column :images do
-          school.first_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.first_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
 
       end
@@ -53,10 +53,10 @@ ActiveAdmin.register School do
       table_for school.second_visit do
         column :visited_at
         column :certificate do
-          school.second_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.second_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
         column :images do
-          school.second_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.second_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
       end
     end
@@ -65,10 +65,10 @@ ActiveAdmin.register School do
       table_for school.third_visit do
         column :visited_at
         column :certificate do
-          school.third_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.third_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
         column :images do
-          school.third_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.third_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
 
       end
@@ -78,10 +78,10 @@ ActiveAdmin.register School do
       table_for school.fourth_visit do
         column :visited_at
         column :certificate do
-          school.fourth_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.fourth_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
         column :images do
-          school.fourth_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe
+          school.fourth_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
 
       end
@@ -115,20 +115,20 @@ ActiveAdmin.register School do
     column("Certificate") { |school| school.completion_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
 
     column("Visit#1") { |school| school.first_visit.try(:visited_at) }
-    column("Visit#1 Image") { |school| school.first_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
-    column("Visit#1 Certificate") { |school| school.first_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
+    column("Visit#1 Image") { |school| school.first_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#1 Certificate") { |school| school.first_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
 
     column("Visit#2") { |school| school.second_visit.try(:visited_at) }
-    column("Visit#2 Image") { |school| school.second_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
-    column("Visit#2 Certificate") { |school| school.second_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
+    column("Visit#2 Image") { |school| school.second_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#2 Certificate") { |school| school.second_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
 
     column("Visit#3") { |school| school.third_visit.try(:visited_at) }
-    column("Visit#3 Image") { |school| school.third_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
-    column("Visit#3 Certificate") { |school| school.third_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
+    column("Visit#3 Image") { |school| school.third_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#3 Certificate") { |school| school.third_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
 
     column("Visit#4") { |school| school.fourth_visit.try(:visited_at) }
-    column("Visit#4 Image") { |school| school.fourth_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
-    column("Visit#4 Certificate") { |school| school.fourth_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
+    column("Visit#4 Image") { |school| school.fourth_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#4 Certificate") { |school| school.fourth_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
   end
 
   sidebar "Completion Certificate", :only => :show do
