@@ -1,4 +1,5 @@
 ActiveAdmin.register School do
+  menu priority: 1, label: "Dashboard"
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
                 :phone, :boys, :girls, :created_by,
                 first_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
@@ -35,11 +36,100 @@ ActiveAdmin.register School do
     column("Total") { |school| school.total_students }
     column("Data Entry Operator") { |school| school.data_entry_operator }
     column("Data Entry Date") { |school| school.created_at }
+
+    column "Visit#1" do |school|
+      table_for school.first_visit do
+        column :visited_at
+        column :certificate do
+          school.first_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+        column :images do
+          school.first_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+
+      end
+    end
+
+    column "Visit#2" do |school|
+      table_for school.second_visit do
+        column :visited_at
+        column :certificate do
+          school.second_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+        column :images do
+          school.second_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+      end
+    end
+
+    column "Visit#3" do |school|
+      table_for school.third_visit do
+        column :visited_at
+        column :certificate do
+          school.third_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+        column :images do
+          school.third_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+
+      end
+    end
+
+    column "Visit#4" do |school|
+      table_for school.fourth_visit do
+        column :visited_at
+        column :certificate do
+          school.fourth_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+        column :images do
+          school.fourth_visit.images.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+        end
+
+      end
+    end
     actions
   end
 
   show do
     render "show"
+  end
+
+  csv do
+    column :year
+    column :quarter
+    column("Unique ID No of Schools") { |school| school.unique_id }
+    column("Implementing Agency") { |school| school.agency.try(:name) }
+    column("Country") { |school| school.state }
+    column(:division) { |school| school.division.name }
+    column(:district) { |school| school.district.name }
+    column(:thana) { |school| school.thana.name }
+    column :union
+    column("Name Of School") { |school| school.title }
+    column("Name Of the School Authority") { |school| school.headmaster }
+    column :phone
+    column :mobile
+    column :status
+    column("Male") { |school| school.boys }
+    column("Female") { |school| school.girls }
+    column("Total") { |school| school.total_students }
+    column("Data Entry Operator") { |school| school.data_entry_operator }
+    column("Certificate") { |school| school.completion_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
+
+    column("Visit#1") { |school| school.first_visit.try(:visited_at) }
+    column("Visit#1 Image") { |school| school.first_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#1 Certificate") { |school| school.first_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+
+    column("Visit#2") { |school| school.second_visit.try(:visited_at) }
+    column("Visit#2 Image") { |school| school.second_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#2 Certificate") { |school| school.second_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+
+    column("Visit#3") { |school| school.third_visit.try(:visited_at) }
+    column("Visit#3 Image") { |school| school.third_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#3 Certificate") { |school| school.third_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+
+    column("Visit#4") { |school| school.fourth_visit.try(:visited_at) }
+    column("Visit#4 Image") { |school| school.fourth_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#4 Certificate") { |school| school.fourth_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
   end
 
   sidebar "Completion Certificate", :only => :show do
