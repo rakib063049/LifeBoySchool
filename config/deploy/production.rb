@@ -15,7 +15,7 @@ role :db,  %w{dev@203.76.108.68}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '203.76.108.68', user: 'dev', roles: %w{web app}, my_property: :my_value
+server '203.76.108.68', user: 'dev', roles: %w{web app db}, primary: true
 
 
 # Custom SSH Options
@@ -25,11 +25,12 @@ server '203.76.108.68', user: 'dev', roles: %w{web app}, my_property: :my_value
 #
 # Global options
 # --------------
-#  set :ssh_options, {
-#    keys: %w(/home/dev/.ssh/id_rsa),
-#    forward_agent: false,
-#    auth_methods: %w(password)
-#  }
+  set :ssh_options, {
+    keys: %w(/home/dev/.ssh/id_rsa),
+    forward_agent: false,
+    auth_methods: %w(password),
+      password: 'password'
+  }
 #
 # And/or per server (overrides global)
 # ------------------------------------
@@ -37,7 +38,7 @@ server '203.76.108.68', user: 'dev', roles: %w{web app}, my_property: :my_value
 #   user: 'dev',
 #   roles: %w{web app},
 #   ssh_options: {
-#     user: 'user_name', # overrides user setting above
+#     user: 'app', # overrides user setting above
 #     keys: %w(/home/dev/.ssh/id_rsa),
 #     forward_agent: false,
 #     auth_methods: %w(publickey password)

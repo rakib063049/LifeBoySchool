@@ -4,11 +4,6 @@ gem 'rails', '4.0.2'
 
 gem 'mysql2'
 
-#group :production do
-#  gem 'pg'
-#  gem 'rails_12factor'
-#end
-
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -39,13 +34,7 @@ gem 'aws-sdk'
 gem 'state_machine'
 
 #deployment
-#gem 'puma'
 group :development do
-  #gem 'capistrano', require: false
-  #gem 'capistrano-rvm', require: false
-  #gem 'capistrano-rails', require: false
-  #gem 'capistrano-bundler', require: false
-  #gem 'capistrano3-puma', require: false
   gem 'capistrano', '~> 3.0.1'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'

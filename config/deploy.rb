@@ -1,17 +1,18 @@
 # config valid only for Capistrano 3.1
-lock '3.2.1'
-#require 'capistrano/ext/multistage'
+require 'capistrano/setup'
+require 'capistrano/deploy'
 require "capistrano/bundler"
+require 'capistrano/rails'
 require "capistrano/rvm"
+
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 require "capistrano/puma"
 
-
+set :rails_env, 'production'
 set :user, 'dev'
 set :use_sudo, true
-
 
 set :application, 'lifebuoy_school'
 set :repo_url, 'git@github.com:rakib063049/LifeBoySchool.git'
@@ -29,8 +30,7 @@ set :pty, true
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
-#set :default_env, {path: "/opt/ruby/bin:$PATH"}
-set :default_env, {path: "/.rvm/bin:$PATH"}
+set :default_env, {path: "/usr/local/bin:$PATH"}
 
 set :keep_releases, 3
 set :default_shell, '/bin/bash -l'
@@ -38,6 +38,9 @@ set :default_shell, '/bin/bash -l'
 set :rbenv_ruby, '2.1.2p95'
 set :bundle_bins, %w("bundle exec")
 set :rvm_map_bins, %w{gem rake ruby bundle}
+set :bundle_roles, :app
+set :migration_role, :db
+set :assets_roles, %w{app}
 
 set :log_level, :debug
 
@@ -67,21 +70,10 @@ namespace :puma do
     end
   end
 
-  #before :start, :make_dirs
+  before :start, :make_dirs
 end
 
 namespace :deploy do
-  desc "Make sure local git is in sync with remote."
-  task :check_revision do
-    on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
-        puts "Run `git push` to sync changes."
-        exit
-      end
-    end
-  end
-
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
@@ -90,16 +82,6 @@ namespace :deploy do
     end
   end
 
-  desc "Install bundles into application"
-  task :bundler_install do
-    on roles(:app) do
-      #execute("cd #{release_path} && bundle install --without=test")
-      execute("cd /home/dev/lifebuoy_school/releases/20141002212820 && bundle install --without=test")
-      #invoke 'bundler:install'
-    end
-  end
-
-
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
@@ -107,10 +89,8 @@ namespace :deploy do
     end
   end
 
-#before :starting, :check_revision
-#after :finishing, :compile_assets
-#  after :finishing, :bundler_install
-  after :finishing, :cleanup
+  after :finishing, :compile_assets
+  #after :finishing, :cleanup
   after :finishing, :restart
 end
 
