@@ -44,5 +44,6 @@ group :production do
   gem 'capistrano', '~> 3.2.0'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
+  gem 'capistrano-rails'
   gem 'capistrano3-puma', github: "seuros/capistrano-puma"
 end
