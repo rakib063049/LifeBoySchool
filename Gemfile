@@ -2,14 +2,12 @@ source 'https://rubygems.org'
 ruby '2.1.2'
 gem 'rails', '4.0.2'
 
-group :development do
-  gem 'mysql2'
-end
+gem 'mysql2'
 
-group :production do
-  gem 'pg'
-  gem 'rails_12factor'
-end
+#group :production do
+#  gem 'pg'
+#  gem 'rails_12factor'
+#end
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
@@ -41,4 +39,8 @@ gem 'aws-sdk'
 gem 'state_machine'
 
 #deployment
+gem 'puma', '~> 2.9.1'
 gem 'capistrano', '~> 3.2.0'
+gem 'capistrano-bundler'
+gem 'capistrano-rvm'
+gem 'capistrano3-puma', github: "seuros/capistrano-puma"
