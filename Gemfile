@@ -39,8 +39,10 @@ gem 'aws-sdk'
 gem 'state_machine'
 
 #deployment
-gem 'puma', '~> 2.9.1'
-gem 'capistrano', '~> 3.2.0'
-gem 'capistrano-bundler'
-gem 'capistrano-rvm'
-gem 'capistrano3-puma', github: "seuros/capistrano-puma"
+group :production do
+  gem 'puma', '~> 2.9.1'
+  gem 'capistrano', '~> 3.2.0'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-puma', github: "seuros/capistrano-puma"
+end
