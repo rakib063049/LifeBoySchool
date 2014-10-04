@@ -29,7 +29,7 @@ server '203.76.108.68', user: 'dev', roles: %w{web app db}, primary: true
     keys: %w(/home/dev/.ssh/id_rsa),
     forward_agent: false,
     auth_methods: %w(password),
-      password: 'Welc0me2u'
+      password: 'password'
   }
 #
 # And/or per server (overrides global)
