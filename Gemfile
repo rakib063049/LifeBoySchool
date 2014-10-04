@@ -34,6 +34,7 @@ gem 'aws-sdk'
 gem 'state_machine'
 
 #deployment
+gem 'puma'
 group :development do
   gem 'capistrano', '~> 3.0.1'
   gem 'capistrano-rails'
