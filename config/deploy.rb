@@ -98,3 +98,5 @@ end
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
 # sudo ln -nfs /home/dev/lifebuoy_school/current/config/nginx.conf /etc/nginx/sites-enabled/lifebuoy_school
+# bind 'unix:///home/dev/lifebuoy_school/shared/tmp/sockets/puma.sock'
+
