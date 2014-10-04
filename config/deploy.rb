@@ -57,9 +57,9 @@ set :puma_env, fetch(:rack_env, fetch(:rails_env, 'production'))
 set :puma_threads, [0, 16]
 set :puma_workers, 0
 set :puma_worker_timeout, nil
-set :puma_init_active_record, false
+set :puma_init_active_record, true
 set :puma_preload_app, true
-set :puma_prune_bundler, false
+set :puma_prune_bundler, true
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -85,7 +85,8 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:restart'
+      invoke 'puma:stop'
+      invoke 'puma:start'
     end
   end
 
