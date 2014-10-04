@@ -292,7 +292,7 @@ ActiveAdmin.register School do
       elsif current_user.viewer?
         School.admin_approved
       elsif current_user.operator?
-        School.admin_approved
+        School.all
       end
     end
   end
