@@ -85,12 +85,11 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:stop'
-      invoke 'puma:start'
+      invoke 'puma:restart'
     end
   end
 
-  after :finishing, :compile_assets
+  #after :finishing, :compile_assets
   #after :finishing, :cleanup
   after :finishing, :restart
 end
@@ -98,6 +97,7 @@ end
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
+# bundle exec pumactl -p 19277 stop
 # sudo ln -nfs /home/dev/lifebuoy_school/current/config/nginx.conf /etc/nginx/sites-enabled/lifebuoy_school
 # bind 'unix:///home/dev/lifebuoy_school/shared/tmp/sockets/puma.sock'
 
