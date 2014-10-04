@@ -1,4 +1,4 @@
-module ApplicationHelper
+module ActiveAdmin::ViewsHelper
 
   def formated_date(data)
     return "" if data.nil?

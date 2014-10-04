@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930063513) do
+ActiveRecord::Schema.define(version: 20141004151801) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -102,6 +102,13 @@ ActiveRecord::Schema.define(version: 20140930063513) do
     t.string   "honorific"
     t.string   "mobile"
     t.string   "data_entry_operator"
+    t.string   "assistant_teacher_name"
+    t.string   "contact_number"
+    t.boolean  "draft",                  default: false
+    t.boolean  "back_checked",           default: false
+    t.boolean  "spot_checked",           default: false
+    t.boolean  "reviewed",               default: false
+    t.text     "comments"
   end
 
   create_table "thanas", force: true do |t|

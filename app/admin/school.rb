@@ -1,5 +1,7 @@
 ActiveAdmin.register School do
   menu priority: 1, label: "Dashboard"
+  config.batch_actions = false
+
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
                 :phone, :boys, :girls, :created_by,
                 first_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
@@ -16,11 +18,11 @@ ActiveAdmin.register School do
 
 
   index do
-    selectable_column
+    #selectable_column
+    column("Implementing Agency") { |school| school.agency.try(:name) }
     column :year
     column :quarter
     column("Unique ID No of Schools") { |school| school.unique_id }
-    column("Implementing Agency") { |school| school.agency.try(:name) }
     column("Country") { |school| school.state }
     column :division
     column :district
@@ -30,16 +32,18 @@ ActiveAdmin.register School do
     column("Name Of the School Authority") { |school| school.headmaster }
     column :phone
     column :mobile
-    column :status
+    unless current_user.viewer?
+      column :status
+    end
     column("Male") { |school| school.boys }
     column("Female") { |school| school.girls }
     column("Total") { |school| school.total_students }
-    column("Data Entry Operator") { |school| school.data_entry_operator }
-    column("Data Entry Date") { |school| school.created_at }
 
     column "Visit#1" do |school|
       table_for school.first_visit do
-        column :visited_at
+        column :visited_at do
+          formated_date(school.first_visit.visited_at)
+        end
         column :certificate do
           school.first_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
@@ -52,7 +56,9 @@ ActiveAdmin.register School do
 
     column "Visit#2" do |school|
       table_for school.second_visit do
-        column :visited_at
+        column :visited_at do
+          formated_date(school.second_visit.visited_at)
+        end
         column :certificate do
           school.second_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
@@ -64,7 +70,9 @@ ActiveAdmin.register School do
 
     column "Visit#3" do |school|
       table_for school.third_visit do
-        column :visited_at
+        column :visited_at do
+          formated_date(school.third_visit.visited_at)
+        end
         column :certificate do
           school.third_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
@@ -77,7 +85,9 @@ ActiveAdmin.register School do
 
     column "Visit#4" do |school|
       table_for school.fourth_visit do
-        column :visited_at
+        column :visited_at do
+          formated_date(school.fourth_visit.visited_at)
+        end
         column :certificate do
           school.fourth_visit.acknowledgement_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
         end
@@ -87,7 +97,12 @@ ActiveAdmin.register School do
 
       end
     end
-    actions
+
+    column :completion_certificates do |school|
+      school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+    end
+    column("Data Entry Operator") { |school| school.data_entry_operator }
+    column("Data Entry Date") { |school| formated_date(school.created_at) }
   end
 
   show do
@@ -95,10 +110,10 @@ ActiveAdmin.register School do
   end
 
   csv do
+    column("Implementing Agency") { |school| school.agency.try(:name) }
     column :year
     column :quarter
     column("Unique ID No of Schools") { |school| school.unique_id }
-    column("Implementing Agency") { |school| school.agency.try(:name) }
     column("Country") { |school| school.state }
     column(:division) { |school| school.division.name }
     column(:district) { |school| school.district.name }
@@ -142,18 +157,18 @@ ActiveAdmin.register School do
 
   form do |f|
     f.inputs "School Details" do
+      f.input :agency_id, as: :select, :required => true, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
       f.input :year, as: :select, collection: 2014..2015, prompt: "Please select Year"
-      f.input :agency_id, as: :select, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
       f.input :quarter, as: :select, collection: Visit::QUARTER, prompt: 'Please select Quarter'
       f.input :state, :input_html => {:value => f.object.state || 'Bangladesh'}, label: "Country"
-      f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Division'
-      f.input :district_id, as: :select, :input_html => {'data-option-dependent' => true,
-                                                         'data-option-url' => '/schools/districts?division_id=:school_division_id',
-                                                         'data-option-observed' => 'school_division_id'}, prompt: 'Please select District',
+      f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, :required => true, prompt: 'Please select Division'
+      f.input :district_id, as: :select, :required => true, :input_html => {'data-option-dependent' => true,
+                                                                            'data-option-url' => '/schools/districts?division_id=:school_division_id',
+                                                                            'data-option-observed' => 'school_division_id'}, prompt: 'Please select District',
               collection: (f.object.division ? f.object.division.districts.collect { |district| [district.name, district.id] } : [])
-      f.input :thana_id, as: :select, :input_html => {'data-option-dependent' => true,
-                                                      'data-option-url' => '/schools/thanas?district_id=:school_district_id',
-                                                      'data-option-observed' => 'school_district_id'}, prompt: 'Please select Thana',
+      f.input :thana_id, as: :select, :required => true, :input_html => {'data-option-dependent' => true,
+                                                                         'data-option-url' => '/schools/thanas?district_id=:school_district_id',
+                                                                         'data-option-observed' => 'school_district_id'}, prompt: 'Please select Thana',
               collection: (f.object.division ? f.object.district.thanas.collect { |thana| [thana.name, thana.id] } : [])
 
       f.input :union
@@ -167,6 +182,8 @@ ActiveAdmin.register School do
       f.input :headmaster_name
       f.input :phone
       f.input :mobile, :input_html => {:value => f.object.mobile || '+88'}
+      f.input :assistant_teacher_name
+      f.input :contact_number
       f.input :boys
       f.input :girls
       f.input :data_entry_operator
@@ -230,8 +247,9 @@ ActiveAdmin.register School do
         end
       end
     end
-
-
+    f.inputs "Draft" do
+      f.input :draft, label: "Save As Draft"
+    end
     f.actions
   end
 
