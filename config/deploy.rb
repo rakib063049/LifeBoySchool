@@ -97,3 +97,4 @@ end
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
+# sudo ln -nfs /home/dev/lifebuoy_school/current/config/nginx.conf /etc/nginx/sites-enabled/lifebuoy_school
