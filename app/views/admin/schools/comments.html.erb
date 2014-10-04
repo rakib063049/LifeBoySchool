@@ -1,0 +1,10 @@
+<%= semantic_form_for @school, url: {action: :save_comments} do |f| %>
+
+    <%= f.inputs do %>
+        <%= f.input :back_checked %>
+        <%= f.input :spot_checked %>
+        <%= f.input :comments, as: :text, input_html: {placeholder: "Enter Comments here .."} %>
+    <% end %>
+
+    <%= f.actions %>
+<%- end %>

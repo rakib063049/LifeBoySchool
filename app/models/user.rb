@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
 
-  ROLES = %w[admin operator viewer]
+  ROLES = %w[admin agency_admin operator viewer ]
 
   def roles=(roles)
     self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
 
   def admin?
     role?(:admin)
+  end
+
+  def agency_admin?
+    role?(:agency_admin)
   end
 
   def operator?

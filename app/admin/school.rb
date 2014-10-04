@@ -254,8 +254,20 @@ ActiveAdmin.register School do
   end
 
 
-  action_item :only => [:show], :if => proc { current_user.admin? && resource.pending? } do
-    link_to('Approve!', approve_admin_school_path(resource), method: :put)
+  action_item :only => [:show], :if => proc { current_user.agency_admin? && resource.pending? } do
+    link_to('Agency Approve!', agency_approve_admin_school_path(resource), method: :put)
+  end
+
+  action_item :only => [:show], :if => proc { current_user.admin? && resource.agency_approved? } do
+    link_to('Add Comments!', comments_admin_school_path(resource), method: :get)
+  end
+
+  action_item :only => [:show], :if => proc { current_user.admin? && resource.agency_approved? } do
+    link_to('Admin Approve!', admin_approve_admin_school_path(resource), method: :put)
+  end
+
+  action_item :only => [:show], :if => proc { current_user.admin? && resource.agency_approved? } do
+    link_to('Review', '#')
   end
 
   controller do
@@ -268,11 +280,36 @@ ActiveAdmin.register School do
     end
   end
 
-  member_action :approve, :method => :put do
+  member_action :agency_approve, :method => :put do
     school = School.find(params[:id])
-    school.approve!
-    flash[:notice] = "School has been Approved!"
+    school.agency_approve!
+    flash[:notice] = "School has been Approved by Agency Admin"
     redirect_to [:admin, :schools]
   end
+
+  member_action :admin_approve, :method => :put do
+    school = School.find(params[:id])
+    school.admin_approve!
+    flash[:notice] = "School has been Approved by Admin"
+    redirect_to [:admin, :schools]
+  end
+
+  member_action :review, :method => :put do
+    school = School.find(params[:id])
+    school.review!
+    flash[:notice] = "School has been Reviewed"
+    redirect_to [:admin, :schools]
+  end
+
+  member_action :comments, :method => :get do
+    @school = School.find(params[:id])
+    @page_title = "#{@school.title}: Comments"
+
+  end
+
+  member_action :save_comments, :method => :put do
+    @school = School.find(params[:id])
+  end
+
 
 end

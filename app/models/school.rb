@@ -29,8 +29,16 @@ class School < ActiveRecord::Base
   scope :order_as_district, -> { order('district_id ASC') }
 
   state_machine :status, :initial => :pending do
-    event :approve do
-      transition :pending => :approved
+    event :agency_approve do
+      transition :pending => :agency_approved
+    end
+
+    event :admin_approve do
+      transition :agency_approved => :admin_approved
+    end
+
+    event :review do
+      transition :agency_approved => :review
     end
   end
 
