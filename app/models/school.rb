@@ -25,7 +25,8 @@ class School < ActiveRecord::Base
   before_create :set_uniq_id
 
   scope :pending, -> { where(status: 'pending') }
-  scope :approved, -> { where(status: 'approved') }
+  scope :admin_approved, -> { where(status: 'admin_approved') }
+  scope :agency_approved, -> { where(status: 'agency_approved') }
   scope :order_as_district, -> { order('district_id ASC') }
 
   state_machine :status, :initial => :pending do

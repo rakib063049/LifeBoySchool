@@ -283,6 +283,18 @@ ActiveAdmin.register School do
       @school.build_third_visit
       @school.build_fourth_visit
     end
+
+    def scoped_collection
+      if current_user.admin?
+        School.agency_approved
+      elsif current_user.agency_admin?
+        School.pending
+      elsif current_user.viewer?
+        School.admin_approved
+      elsif current_user.operator?
+        School.admin_approved
+      end
+    end
   end
 
   member_action :agency_approve, :method => :put do
