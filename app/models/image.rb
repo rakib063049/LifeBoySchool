@@ -3,7 +3,7 @@ class Image < ActiveRecord::Base
 
   has_attached_file :photo,
                     :styles => {thumb: '100x100>', original: '634x471>'},
-                    :convert_options => { :original => '-quality 20' }
+                    :convert_options => { :original => '-quality 40' }
 
 
   # Validate the attached image is image/jpg, image/png, etc
