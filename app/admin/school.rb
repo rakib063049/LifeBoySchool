@@ -3,7 +3,7 @@ ActiveAdmin.register School do
   config.batch_actions = false
 
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
-                :phone, :boys, :girls, :created_by,
+                :phone, :boys, :girls, :created_by, :assistant_teacher_name, :contact_number, :draft, :back_checked, :spot_checked, :reviewed, :comments,
                 first_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
                 second_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
                 third_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
@@ -101,6 +101,11 @@ ActiveAdmin.register School do
     column :completion_certificates do |school|
       school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
     end
+
+    column :back_checked
+    column :spot_checked
+    column :comments
+
     column("Data Entry Operator") { |school| school.data_entry_operator }
     column("Data Entry Date") { |school| formated_date(school.created_at) }
   end
@@ -309,6 +314,8 @@ ActiveAdmin.register School do
 
   member_action :save_comments, :method => :put do
     @school = School.find(params[:id])
+    update!
+    flash[:notice] = "Comment has been added"
   end
 
 
