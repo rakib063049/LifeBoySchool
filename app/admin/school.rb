@@ -102,9 +102,14 @@ ActiveAdmin.register School do
       school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
     end
 
+    column :draft
+    if current_user.agency_admin?
+      column :reviewed
+    end
     column :back_checked
     column :spot_checked
     column :comments
+
 
     column("Data Entry Operator") { |school| school.data_entry_operator }
     column("Data Entry Date") { |school| formated_date(school.created_at) }
@@ -272,7 +277,7 @@ ActiveAdmin.register School do
   end
 
   action_item :only => [:show], :if => proc { current_user.admin? && resource.agency_approved? } do
-    link_to('Review', '#')
+    link_to('Review', review_admin_school_path(resource), method: :put)
   end
 
   controller do
@@ -288,11 +293,11 @@ ActiveAdmin.register School do
       if current_user.admin?
         School.agency_approved
       elsif current_user.agency_admin?
-        School.pending
+        School.by_agency(current_user.agency_id).not_draft
       elsif current_user.viewer?
-        School.admin_approved
+        School.by_agency(current_user.agency_id).admin_approved
       elsif current_user.operator?
-        School.all
+        School.by_agency(current_user.agency_id).all
       end
     end
   end

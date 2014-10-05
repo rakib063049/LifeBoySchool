@@ -11,7 +11,7 @@ class School < ActiveRecord::Base
   has_one :fourth_visit
 
 
-  validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls, :phone,
+  validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls,
             :agency_id, :quarter, :honorific, :mobile, :data_entry_operator, :presence => true
 
   validates :mobile, length: {minimum: 13, maximum: 14, message: 'Mobile Number should be 11 digits'}
@@ -24,10 +24,13 @@ class School < ActiveRecord::Base
 
   before_create :set_uniq_id
 
+  scope :not_draft, -> { where(draft: false) }
   scope :pending, -> { where(status: 'pending') }
   scope :admin_approved, -> { where(status: 'admin_approved') }
   scope :agency_approved, -> { where(status: 'agency_approved') }
   scope :order_as_district, -> { order('district_id ASC') }
+  scope :by_agency, ->(agency_id) { where(agency_id: agency_id) }
+
 
   state_machine :status, :initial => :pending do
     event :agency_approve do
@@ -45,7 +48,7 @@ class School < ActiveRecord::Base
 
   def set_uniq_id
     number = loop do
-      token = "#{self.agency.name}_#{self.thana.code}_#{rand(36**5).to_s(36)}"
+      token = "UBL_#{self.agency.code}_#{self.thana.code}_#{rand(36**5).to_s(36)}"
       break token.upcase! unless School.exists?(unique_id: token)
     end
     self.unique_id = number
@@ -61,5 +64,9 @@ class School < ActiveRecord::Base
 
   def headmaster
     [self.honorific, self.headmaster_name].join(" ")
+  end
+
+  def review!
+    self.update_attributes(reviewed: true)
   end
 end

@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-
-  validates :first_name, :last_name, :title, :roles, :presence => true
+  belongs_to :agency
+  validates :first_name, :last_name, :title, :roles, :agency_id, :presence => true
 
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
 
