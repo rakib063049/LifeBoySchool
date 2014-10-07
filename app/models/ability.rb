@@ -7,9 +7,12 @@ class Ability
       can :manage, :all
     elsif user.operator?
       can :read, :all
+      can :manage, School
       cannot :manage, User
-      can [:read, :create, :update, :destroy], [School, Visit, Division, District, Thana]
     elsif user.viewer?
+      can :read, :all
+      cannot :manage, User
+    else
       can :read, :all
       cannot :manage, User
     end

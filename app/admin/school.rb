@@ -289,6 +289,7 @@ ActiveAdmin.register School do
       @school.build_fourth_visit
     end
 
+
     def scoped_collection
       if current_user.admin?
         School.agency_approved
@@ -297,7 +298,7 @@ ActiveAdmin.register School do
       elsif current_user.viewer?
         School.by_agency(current_user.agency_id).admin_approved
       elsif current_user.operator?
-        School.by_agency(current_user.agency_id).all
+        School.by_agency(current_user.agency_id).load
       end
     end
   end

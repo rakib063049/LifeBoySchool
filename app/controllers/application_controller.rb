@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = "You do not have permission to perform that task."
-    redirect_to root_path
+    redirect_to [:admin, :schools]
   end
 
   protected
