@@ -3,7 +3,9 @@ class Image < ActiveRecord::Base
 
   has_attached_file :photo,
                     :styles => {thumb: '100x100>', original: '634x471>'},
-                    :convert_options => { :original => '-quality 40' }
+                    :convert_options => {:original => '-quality 40'},
+                    :url => "/assets/:attachment/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/assets/:attachment/:id/:style/:basename.:extension"
 
 
   # Validate the attached image is image/jpg, image/png, etc

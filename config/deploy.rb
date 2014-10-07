@@ -100,4 +100,4 @@ end
 # bundle exec pumactl -p 19277 stop
 # sudo ln -nfs /home/dev/lifebuoy_school/current/config/nginx.conf /etc/nginx/sites-enabled/lifebuoy_school
 # bind 'unix:///home/dev/lifebuoy_school/shared/tmp/sockets/puma.sock'
-
+# ln -s /home/dev/lifebuoy_school/shared/public/assets /home/dev/lifebuoy_school/releases/20141007183556/public/assets
