@@ -16,6 +16,8 @@ ActiveAdmin.register School do
   filter :district
   filter :title
 
+  index :download_links => proc { current_user.admin? }
+
 
   index do
     #selectable_column
@@ -29,6 +31,9 @@ ActiveAdmin.register School do
     column :thana
     column :union
     column("Name Of School") { |school| link_to school.title, admin_school_path(school) }
+    column :completion_certificates do |school|
+      school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+    end
     column("Name Of the School Authority") { |school| school.headmaster }
     column :phone
     column :mobile
@@ -97,12 +102,9 @@ ActiveAdmin.register School do
 
       end
     end
-
-    column :completion_certificates do |school|
-      school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+    unless current_user.viewer?
+      column :draft
     end
-
-    column :draft
     if current_user.agency_admin?
       column :reviewed
     end
@@ -282,7 +284,7 @@ ActiveAdmin.register School do
 
   controller do
     def new
-      @school = School.new
+      @school = School.new(agency_id: current_user.agency_id)
       @school.build_first_visit
       @school.build_second_visit
       @school.build_third_visit

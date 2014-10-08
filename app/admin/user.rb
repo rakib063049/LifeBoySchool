@@ -27,9 +27,21 @@ ActiveAdmin.register User do
       f.input :email
       f.input :password
       f.input :password_confirmation
-      f.input :roles, as: :check_boxes, collection: User::ROLES
+      f.input :roles, as: :check_boxes, collection: User::ADMIN_ROLES if current_user.admin?
+      f.input :roles, as: :check_boxes, collection: User::AGENCY_ADMIN_ROLES if current_user.agency_admin?
     end
     f.actions
+  end
+
+  controller do
+
+    def scoped_collection
+      if current_user.admin?
+        User.all
+      elsif current_user.agency_admin?
+        User.by_agency(current_user.agency_id).load
+      end
+    end
   end
 
 end

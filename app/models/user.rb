@@ -6,8 +6,11 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, :title, :roles, :agency_id, :presence => true
 
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
+  scope :by_agency, ->(agency_id) { where(agency_id: agency_id) }
 
   ROLES = %w[admin agency_admin operator viewer ]
+  ADMIN_ROLES = %w[admin agency_admin viewer]
+  AGENCY_ADMIN_ROLES = %w[agency_admin operator]
 
   def roles=(roles)
     self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
