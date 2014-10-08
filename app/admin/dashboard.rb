@@ -7,7 +7,7 @@ ActiveAdmin.register_page "Dashboard" do
     columns do
       column do
         panel "Schools" do
-          table_for School.not_draft.order_as_district do
+          table_for School.not_draft do
             column("Implementing Agency") { |school| school.agency.try(:name) }
             column :year
             column :quarter
