@@ -298,7 +298,7 @@ ActiveAdmin.register School do
       elsif current_user.agency_admin?
         School.by_agency(current_user.agency_id).not_draft
       elsif current_user.viewer?
-        School.by_agency(current_user.agency_id).admin_approved
+        School.admin_approved
       elsif current_user.operator?
         School.by_agency(current_user.agency_id).load
       end
