@@ -12,6 +12,9 @@ ActiveAdmin.register_page "Dashboard" do
             column :year
             column :quarter
             column("Unique ID No of Schools") { |school| school.unique_id }
+            column :completion_certificates do |school|
+              school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
+            end
             column("Country") { |school| school.state }
             column :division
             column :district
@@ -85,10 +88,6 @@ ActiveAdmin.register_page "Dashboard" do
                 end
 
               end
-            end
-
-            column :completion_certificates do |school|
-              school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
             end
 
             column :back_checked
