@@ -16,9 +16,6 @@ ActiveAdmin.register School do
   filter :district
   filter :title
 
-  index :download_links => proc { current_user.admin? }
-
-
   index do
     #selectable_column
     column("Implementing Agency") { |school| school.agency.try(:name) }
@@ -116,6 +113,8 @@ ActiveAdmin.register School do
     column("Data Entry Operator") { |school| school.data_entry_operator }
     column("Data Entry Date") { |school| formated_date(school.created_at) }
   end
+
+  index :download_links => proc { current_user.admin? }
 
   show do
     render "show"
