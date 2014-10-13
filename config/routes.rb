@@ -1,5 +1,6 @@
 LifebuoySchool::Application.routes.draw do
   devise_for :users, ActiveAdmin::Devise.config
+  root to: "admin/dashboard#index"
   ActiveAdmin.routes(self)
   resources :users_admin, :controller => 'users'
   resources :visits do
@@ -21,7 +22,7 @@ LifebuoySchool::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcomes#index'
+  #root 'welcomes#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

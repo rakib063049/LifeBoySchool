@@ -63,16 +63,8 @@ ActiveRecord::Schema.define(version: 20141008171218) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.integer  "school_id"
-    t.string   "completion_certificate_file_name"
-    t.string   "completion_certificate_content_type"
-    t.integer  "completion_certificate_file_size"
-    t.datetime "completion_certificate_updated_at"
-    t.string   "acknowledgement_certificate_file_name"
-    t.string   "acknowledgement_certificate_content_type"
-    t.integer  "acknowledgement_certificate_file_size"
-    t.datetime "acknowledgement_certificate_updated_at"
     t.string   "type"
+    t.integer  "school_id"
   end
 
   create_table "roles", force: true do |t|
