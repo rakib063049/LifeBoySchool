@@ -96,4 +96,10 @@ ActiveAdmin.register School, :as => 'AllSchool' do
     column("Data Entry Date") { |school| formated_date(school.created_at) }
   end
 
+  controller do
+    def scoped_collection
+      School.not_draft
+    end
+  end
+
 end
