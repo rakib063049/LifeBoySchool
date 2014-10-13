@@ -193,15 +193,15 @@ ActiveAdmin.register School do
       f.input :mobile, :input_html => {:value => f.object.mobile || '+88'}
       f.input :assistant_teacher_name
       f.input :contact_number
-      f.input :boys
-      f.input :girls
+      f.input :boys, :input_html => {'data-option-confirmation' => true}
+      f.input :girls, :input_html => {'data-option-confirmation' => true}
       f.input :data_entry_operator
       f.input :created_by, as: :hidden, :input_html => {value: current_user.id}
     end
 
     f.inputs "Visits Information" do
       f.inputs "Visit#1", for: [:first_visit, f.object.first_visit] do |vf|
-        vf.input :visited_at, as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker
         vf.inputs "Acknowledgement Certificate" do
           vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
             cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
@@ -215,7 +215,7 @@ ActiveAdmin.register School do
       end
 
       f.inputs "Visit#2", for: [:second_visit, f.object.second_visit] do |vf|
-        vf.input :visited_at, as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker
         vf.inputs "Acknowledgement Certificate" do
           vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
             cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
@@ -229,7 +229,7 @@ ActiveAdmin.register School do
       end
 
       f.inputs "Visit#3", for: [:third_visit, f.object.third_visit] do |vf|
-        vf.input :visited_at, as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker
         vf.inputs "Acknowledgement Certificate" do
           vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
             cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
@@ -243,7 +243,7 @@ ActiveAdmin.register School do
       end
 
       f.inputs "Visit#4", for: [:fourth_visit, f.object.fourth_visit] do |vf|
-        vf.input :visited_at, as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker
         vf.inputs "Acknowledgement Certificate" do
           vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
             cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
