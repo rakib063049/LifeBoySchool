@@ -197,6 +197,7 @@ ActiveAdmin.register School do
       f.input :girls, :input_html => {'data-option-confirmation' => true}
       f.input :data_entry_operator
       f.input :created_by, as: :hidden, :input_html => {value: current_user.id}
+      f.input :reviewed, as: :hidden, :input_html => {value: false}, :if => proc { current_user.agency_admin? }
     end
 
     f.inputs "Visits Information" do
@@ -291,7 +292,7 @@ ActiveAdmin.register School do
 
     def scoped_collection
       if current_user.admin?
-        School.agency_approved
+        School.agency_approved.not_reviewed
       elsif current_user.agency_admin?
         School.by_agency(current_user.agency_id).not_draft
       elsif current_user.viewer?

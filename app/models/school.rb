@@ -24,6 +24,7 @@ class School < ActiveRecord::Base
 
   before_create :set_uniq_id
 
+  scope :not_reviewed, -> { where(reviewed: false) }
   scope :not_draft, -> { where(draft: false) }
   scope :pending, -> { where(status: 'pending') }
   scope :admin_approved, -> { where(status: 'admin_approved') }
@@ -40,10 +41,6 @@ class School < ActiveRecord::Base
 
     event :admin_approve do
       transition :agency_approved => :admin_approved
-    end
-
-    event :review do
-      transition :agency_approved => :review
     end
   end
 
