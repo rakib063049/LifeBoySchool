@@ -1,6 +1,6 @@
 LifebuoySchool::Application.routes.draw do
   devise_for :users, ActiveAdmin::Devise.config
-  root to: "admin/dashboard#index"
+  root to: "admin/schools#index"
   ActiveAdmin.routes(self)
   resources :users_admin, :controller => 'users'
   resources :visits do
