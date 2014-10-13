@@ -182,7 +182,7 @@ ActiveAdmin.register School do
 
       f.input :union
       f.input :title, label: 'School Name'
-      f.inputs "Completion Certificate" do
+      f.inputs "Completion Certificate *" do
         f.has_many :completion_certificates, allow_destroy: true do |cf|
           cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
         end
@@ -289,6 +289,9 @@ ActiveAdmin.register School do
       @school.build_fourth_visit
     end
 
+    def resource
+      @school = School.find(params[:id])
+    end
 
     def scoped_collection
       if current_user.admin?
