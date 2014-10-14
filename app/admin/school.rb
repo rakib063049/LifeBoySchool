@@ -290,7 +290,11 @@ ActiveAdmin.register School do
     end
 
     def resource
-      @school = School.find(params[:id])
+      if params[:id].present?
+        @school = School.find(params[:id])
+      else
+        School.unscoped { super }
+      end
     end
 
     def scoped_collection
