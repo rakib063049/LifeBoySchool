@@ -164,7 +164,7 @@ ActiveAdmin.register School do
     render "show_visits"
   end
 
-  form do |f|
+  form :html => {:multipart => true} do |f|
     f.inputs "School Details" do
       f.input :agency_id, as: :select, :required => true, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
       f.input :year, as: :select, collection: 2014..2015, prompt: "Please select Year"
@@ -185,6 +185,8 @@ ActiveAdmin.register School do
       f.inputs "Completion Certificate *" do
         f.has_many :completion_certificates, allow_destroy: true do |cf|
           cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          #cf.input :photo, :as => :file, :input_html => {multiple: true}, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+          #file_field_tag('school_completion_certificates_attributes', multiple: true, name: "school[completion_certificates_attributes][][photo]")
         end
       end
       f.input :honorific, label: 'Headmaster Title', as: :select, collection: ["Mr.", "Ms.", "Mrs."], prompt: "Please select title"
