@@ -8,7 +8,7 @@ ActiveAdmin.register School do
                 second_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
                 third_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
                 fourth_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
-                completion_certificates_attributes: [:id, :photo, :_destroy]
+                completion_certificates_attributes: [:id, :photo, :_destroy, photo: []]
 
   filter :year
   filter :created_at, label: 'Data Entry Date'
@@ -185,8 +185,7 @@ ActiveAdmin.register School do
       f.inputs "Completion Certificate *" do
         f.has_many :completion_certificates, allow_destroy: true do |cf|
           cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          #cf.input :photo, :as => :file, :input_html => {multiple: true}, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          #file_field_tag('school_completion_certificates_attributes', multiple: true, name: "school[completion_certificates_attributes][][photo]")
+          #cf.input :photos, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
         end
       end
       f.input :honorific, label: 'Headmaster Title', as: :select, collection: ["Mr.", "Ms.", "Mrs."], prompt: "Please select title"
