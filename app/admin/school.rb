@@ -182,12 +182,20 @@ ActiveAdmin.register School do
 
       f.input :union
       f.input :title, label: 'School Name'
-      f.inputs "Completion Certificate *" do
-        f.has_many :completion_certificates, allow_destroy: true do |cf|
-          cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          #cf.input :photos, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-        end
+      f.input :completion_certificates, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}
+      f.inputs "Completion Certificates" do
+        f.template.render partial: 'completion_certificates', local: {photos: f.object.completion_certificates}
       end
+      #f.inputs "Completion Certificate *" do
+      #  f.input :photos, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}
+      #  f.template.render partial: 'completion_certificates', local: {photos: f.object.completion_certificates}
+      #
+      #  f.has_many :completion_certificates, new_record: true do |cf|
+      #    cf.input :photo, :hint => cf.template.image_tag(cf.object.photo.url(:thumb)), required: false
+      #    #cf.input :photo, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
+      #    #file_field_tag("school[completion_certificates_attributes][][photo]", type: :file, multiple: true)
+      #  end
+      #end
       f.input :honorific, label: 'Headmaster Title', as: :select, collection: ["Mr.", "Ms.", "Mrs."], prompt: "Please select title"
       f.input :headmaster_name
       f.input :phone
