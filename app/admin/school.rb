@@ -8,7 +8,7 @@ ActiveAdmin.register School do
                 second_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
                 third_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
                 fourth_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
-                completion_certificates_attributes: [:id, :photo, :_destroy, photo: []]
+                completion_certificates_attributes: [:id, :photo, :_destroy, photo: []], remove_images: []
 
   filter :year
   filter :created_at, label: 'Data Entry Date'
@@ -184,7 +184,7 @@ ActiveAdmin.register School do
       f.input :title, label: 'School Name'
       f.input :completion_certificates, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}
       f.inputs "Completion Certificates" do
-        f.template.render partial: 'completion_certificates', local: {photos: f.object.completion_certificates}
+        f.template.render partial: 'photos', locals: {photos: f.object.completion_certificates}
       end
       #f.inputs "Completion Certificate *" do
       #  f.input :photos, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}

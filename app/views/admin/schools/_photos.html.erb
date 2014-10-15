@@ -1,5 +1,11 @@
-<% photos.each do |img| %>
-    <%= link_to img.photo.url, target: '_blank' do %>
-        <%= image_tag img.photo.url(:thumb) %>
-    <% end %>
+<% photos.collect do |img| %>
+    <li>
+      <%= link_to img.photo.url, target: '_blank' do %>
+          <%= image_tag img.photo.url(:thumb) %>
+      <% end %>
+    </li>
+    <li>
+      <%#= check_box_tag("school[remove_images][#{img.id}][_destroy]", 1) %>
+      <%= check_box_tag("school[completion_certificates_attributes][#{img.id}][_destroy]", 1) %>Delete
+    </li>
 <% end %>
