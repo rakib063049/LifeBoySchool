@@ -4,11 +4,11 @@ ActiveAdmin.register School do
 
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
                 :phone, :boys, :girls, :created_by, :assistant_teacher_name, :contact_number, :draft, :back_checked, :spot_checked, :reviewed, :comments,
-                first_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
-                second_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
-                third_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
-                fourth_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], images_attributes: [:id, :photo, :_destroy]],
-                completion_certificates_attributes: [:id, :photo, :_destroy, photo: []], remove_images: []
+                first_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], students_images_attributes: [:id, :photo, :_destroy]],
+                second_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], students_images_attributes: [:id, :photo, :_destroy]],
+                third_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], students_images_attributes: [:id, :photo, :_destroy]],
+                fourth_visit_attributes: [:id, :school_id, :agency_id, :quarter, :visited_at, :_destroy, acknowledgement_certificates_attributes: [:id, :photo, :_destroy], students_images_attributes: [:id, :photo, :_destroy]],
+                completion_certificates_attributes: [:id, :photo, :_destroy, photo: []], remove_photo: [:id]
 
   filter :year
   filter :created_at, label: 'Data Entry Date'
@@ -182,20 +182,13 @@ ActiveAdmin.register School do
 
       f.input :union
       f.input :title, label: 'School Name'
-      f.input :completion_certificates, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}
-      f.inputs "Completion Certificates" do
+
+      f.input :completion_certificates, label: "Completion Certificates*", :as => :file,
+              :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}
+      f.inputs do
         f.template.render partial: 'photos', locals: {photos: f.object.completion_certificates}
       end
-      #f.inputs "Completion Certificate *" do
-      #  f.input :photos, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}
-      #  f.template.render partial: 'completion_certificates', local: {photos: f.object.completion_certificates}
-      #
-      #  f.has_many :completion_certificates, new_record: true do |cf|
-      #    cf.input :photo, :hint => cf.template.image_tag(cf.object.photo.url(:thumb)), required: false
-      #    #cf.input :photo, :as => :file, :input_html => {multiple: true, name: "school[completion_certificates_attributes][][photo]"}, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-      #    #file_field_tag("school[completion_certificates_attributes][][photo]", type: :file, multiple: true)
-      #  end
-      #end
+
       f.input :honorific, label: 'Headmaster Title', as: :select, collection: ["Mr.", "Ms.", "Mrs."], prompt: "Please select title"
       f.input :headmaster_name
       f.input :phone
@@ -212,57 +205,65 @@ ActiveAdmin.register School do
     f.inputs "Visits Information" do
       f.inputs "Visit#1", for: [:first_visit, f.object.first_visit] do |vf|
         vf.input :visited_at, label: 'Visit on', as: :datepicker
-        vf.inputs "Acknowledgement Certificate" do
-          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
+                 :input_html => {multiple: true, name: "school[first_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.acknowledgement_certificates}
         end
-        vf.inputs "Images" do
-          vf.has_many :images, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :students_images, label: "Images*", :as => :file,
+                 :input_html => {multiple: true, name: "school[first_visit_attributes][students_images_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.students_images}
         end
       end
 
       f.inputs "Visit#2", for: [:second_visit, f.object.second_visit] do |vf|
         vf.input :visited_at, label: 'Visit on', as: :datepicker
-        vf.inputs "Acknowledgement Certificate" do
-          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
+                 :input_html => {multiple: true, name: "school[second_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.acknowledgement_certificates}
         end
-        vf.inputs "Images" do
-          vf.has_many :images, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :students_images, label: "Images*", :as => :file,
+                 :input_html => {multiple: true, name: "school[second_visit_attributes][students_images_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.students_images}
         end
       end
 
       f.inputs "Visit#3", for: [:third_visit, f.object.third_visit] do |vf|
         vf.input :visited_at, label: 'Visit on', as: :datepicker
-        vf.inputs "Acknowledgement Certificate" do
-          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
+                 :input_html => {multiple: true, name: "school[third_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.acknowledgement_certificates}
         end
-        vf.inputs "Images" do
-          vf.has_many :images, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :students_images, label: "Images*", :as => :file,
+                 :input_html => {multiple: true, name: "school[third_visit_attributes][students_images_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.students_images}
         end
       end
 
       f.inputs "Visit#4", for: [:fourth_visit, f.object.fourth_visit] do |vf|
         vf.input :visited_at, label: 'Visit on', as: :datepicker
-        vf.inputs "Acknowledgement Certificate" do
-          vf.has_many :acknowledgement_certificates, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
+                 :input_html => {multiple: true, name: "school[fourth_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.acknowledgement_certificates}
         end
-        vf.inputs "Images" do
-          vf.has_many :images, allow_destroy: true do |cf|
-            cf.input :photo, :as => :file, :hint => cf.template.image_tag(cf.object.photo.url(:thumb))
-          end
+
+        vf.input :students_images, label: "Images*", :as => :file,
+                 :input_html => {multiple: true, name: "school[fourth_visit_attributes][students_images_attributes][][photo]"}
+        vf.inputs do
+          vf.template.render partial: 'photos', locals: {photos: vf.object.students_images}
         end
       end
     end
@@ -304,6 +305,12 @@ ActiveAdmin.register School do
       else
         School.unscoped { super }
       end
+    end
+
+    def update
+      remove_photos = params[:school][:remove_photo]
+      Image.destroy_all(id: remove_photos.keys) if remove_photos.present?
+      update!
     end
 
     def scoped_collection

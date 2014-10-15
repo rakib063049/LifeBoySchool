@@ -22,6 +22,8 @@ class School < ActiveRecord::Base
   accepts_nested_attributes_for :fourth_visit
   accepts_nested_attributes_for :completion_certificates, allow_destroy: true
 
+  attr_accessor :remove_photo
+
   before_create :set_uniq_id
 
   scope :not_reviewed, -> { where(reviewed: false) }

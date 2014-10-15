@@ -21,8 +21,8 @@
 </tr>
 <tr>
   <td>
-    <% if visit.try(:images).present? %>
-        <% visit.images.each do |img| %>
+    <% if visit.try(:students_images).present? %>
+        <% visit.students_images.each do |img| %>
             <%= link_to img.photo.url, target: '_blank' do %>
                 <%= image_tag img.photo.url(:thumb) %>
             <% end %>
