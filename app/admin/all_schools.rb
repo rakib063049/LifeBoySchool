@@ -92,8 +92,8 @@ ActiveAdmin.register School, :as => 'AllSchool' do
     column :comments
 
 
-    column("Data Entry Operator") { |school| school.data_entry_operator }
-    column("Data Entry Date") { |school| formated_date(school.created_at) }
+    column("Data Entry Operator") { |school| school.agency_operator }
+    column("Data Entry Date") { |school| formated_datetime(school.created_at) }
   end
 
   controller do

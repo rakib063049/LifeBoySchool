@@ -69,4 +69,8 @@ class School < ActiveRecord::Base
   def review!
     self.update_attributes(reviewed: true)
   end
+
+  def agency_operator
+    [self.data_entry_operator, self.agency.code].join("_")
+  end
 end

@@ -110,8 +110,8 @@ ActiveAdmin.register School do
     column :comments
 
 
-    column("Data Entry Operator") { |school| school.data_entry_operator }
-    column("Data Entry Date") { |school| formated_date(school.created_at) }
+    column("Data Entry Operator") { |school| school.agency_operator }
+    column("Data Entry Date") { |school| formated_datetime(school.created_at) }
   end
 
   show do
@@ -319,7 +319,7 @@ ActiveAdmin.register School do
       elsif current_user.agency_admin?
         School.by_agency(current_user.agency_id).not_draft
       elsif current_user.viewer?
-        School.not_draft
+        School.admin_approved
       elsif current_user.operator?
         School.by_agency(current_user.agency_id).load
       end
