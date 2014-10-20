@@ -58,6 +58,14 @@
           <td><%= @school.mobile %></td>
         </tr>
         <tr class="row">
+          <th>Assistant Teacher Name</th>
+          <td><%= @school.assistant_teacher_name %></td>
+        </tr>
+        <tr class="row">
+          <th>Contact Number</th>
+          <td><%= @school.contact_number %></td>
+        </tr>
+        <tr class="row">
           <th>status</th>
           <td><%= @school.status %></td>
         </tr>
@@ -75,7 +83,11 @@
         </tr>
         <tr class="row">
           <th>data_entry_operator</th>
-          <td><%= @school.data_entry_operator %></td>
+          <td><%= @school.agency_operator %></td>
+        </tr>
+        <tr class="row">
+          <th>Data Entry Date</th>
+          <td><%= formated_datetime(@school.created_at) %></td>
         </tr>
 
         </tbody>

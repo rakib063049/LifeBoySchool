@@ -14,6 +14,7 @@ class School < ActiveRecord::Base
   validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls,
             :agency_id, :quarter, :honorific, :mobile, :data_entry_operator, :presence => true
 
+  validates :phone, :contact_number, :boys, :girls, numericality: true
   validates :mobile, length: {minimum: 13, maximum: 14, message: 'Mobile Number should be 11 digits'}
 
   accepts_nested_attributes_for :first_visit
