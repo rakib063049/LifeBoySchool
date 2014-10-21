@@ -1,6 +1,6 @@
 ActiveAdmin.register School do
   menu priority: 1, label: "Dashboard"
-  config.batch_actions = false
+  #config.batch_actions = false
 
   permit_params :year, :unique_id, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :agency_id, :quarter, :honorific, :mobile, :data_entry_operator,
                 :phone, :boys, :girls, :created_by, :assistant_teacher_name, :contact_number, :draft, :back_checked, :spot_checked, :reviewed, :comments,
@@ -17,7 +17,9 @@ ActiveAdmin.register School do
   filter :title
 
   index :download_links => proc { current_user.admin? } do
-    #selectable_column
+    if current_user.operator?
+      selectable_column
+    end
     column("Implementing Agency") { |school| school.agency.try(:name) }
     column :year
     column :quarter
@@ -169,7 +171,7 @@ ActiveAdmin.register School do
       f.input :agency_id, as: :select, :required => true, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
       f.input :year, as: :select, collection: 2014..2015, prompt: "Please select Year"
       f.input :quarter, as: :select, collection: Visit::QUARTER, prompt: 'Please select Quarter'
-      f.input :state, :input_html => {:value => f.object.state || 'Bangladesh'}, label: "Country"
+      f.input :state, :input_html => {:value => f.object.state || 'Bangladesh', :disabled => true}, label: "Country"
       f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, :required => true, prompt: 'Please select Division'
       f.input :district_id, as: :select, :required => true, :input_html => {'data-option-dependent' => true,
                                                                             'data-option-url' => '/schools/districts?division_id=:school_division_id',
