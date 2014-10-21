@@ -206,7 +206,7 @@ ActiveAdmin.register School do
 
     f.inputs "Visits Information" do
       f.inputs "Visit#1", for: [:first_visit, f.object.first_visit] do |vf|
-        vf.input :visited_at, label: 'Visit on', as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker, :input_html => {:value => vf.object.visited_at || Date.today}
 
         vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
                  :input_html => {multiple: true, name: "school[first_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
@@ -222,7 +222,7 @@ ActiveAdmin.register School do
       end
 
       f.inputs "Visit#2", for: [:second_visit, f.object.second_visit] do |vf|
-        vf.input :visited_at, label: 'Visit on', as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker, :input_html => {:value => vf.object.visited_at || Date.today}
 
         vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
                  :input_html => {multiple: true, name: "school[second_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
@@ -238,7 +238,7 @@ ActiveAdmin.register School do
       end
 
       f.inputs "Visit#3", for: [:third_visit, f.object.third_visit] do |vf|
-        vf.input :visited_at, label: 'Visit on', as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker, :input_html => {:value => vf.object.visited_at || Date.today}
 
         vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
                  :input_html => {multiple: true, name: "school[third_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
@@ -254,7 +254,7 @@ ActiveAdmin.register School do
       end
 
       f.inputs "Visit#4", for: [:fourth_visit, f.object.fourth_visit] do |vf|
-        vf.input :visited_at, label: 'Visit on', as: :datepicker
+        vf.input :visited_at, label: 'Visit on', as: :datepicker, :input_html => {:value => vf.object.visited_at || Date.today}
 
         vf.input :acknowledgement_certificates, label: "Acknowledgement Certificate*", :as => :file,
                  :input_html => {multiple: true, name: "school[fourth_visit_attributes][acknowledgement_certificates_attributes][][photo]"}
