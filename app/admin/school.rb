@@ -20,7 +20,7 @@ ActiveAdmin.register School do
     if current_user.operator?
       selectable_column
     end
-    column("Implementing Agency") { |school| school.agency.try(:name) }
+    column("Implementing Agency", sortable: 'schools.agency_id') { |school| school.agency.try(:name) }
     column :year
     column :quarter
     column("Unique ID No of Schools") { |school| school.unique_id }

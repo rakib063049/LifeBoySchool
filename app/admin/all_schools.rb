@@ -5,7 +5,7 @@ ActiveAdmin.register School, :as => 'AllSchool' do
   config.clear_action_items!
 
   index :download_links => proc { current_user.admin? } do
-    column("Implementing Agency") { |school| school.agency.try(:name) }
+    column("Implementing Agency", sortable: 'schools.agency_id') { |school| school.agency.try(:name) }
     column :year
     column :quarter
     column("Unique ID No of Schools") { |school| school.unique_id }
