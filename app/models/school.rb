@@ -11,12 +11,12 @@ class School < ActiveRecord::Base
   has_one :fourth_visit
 
 
-  #validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls,
-  #          :agency_id, :quarter, :honorific, :mobile, :data_entry_operator, :presence => true
-  #
-  #validates :phone, :contact_number, numericality: true, allow_blank: true
-  #validates :boys, :girls, numericality: true
-  #validates :mobile, length: {minimum: 13, maximum: 14, message: 'Mobile Number should be 11 digits'}
+  validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls,
+            :agency_id, :quarter, :honorific, :mobile, :data_entry_operator, :presence => true
+
+  validates :phone, :contact_number, numericality: true, allow_blank: true
+  validates :boys, :girls, numericality: true
+  validates :mobile, length: {minimum: 13, maximum: 14, message: 'Mobile Number should be 11 digits'}
 
   accepts_nested_attributes_for :first_visit
   accepts_nested_attributes_for :second_visit
