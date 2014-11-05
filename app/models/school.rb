@@ -11,12 +11,12 @@ class School < ActiveRecord::Base
   has_one :fourth_visit
 
 
-  validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls,
-            :agency_id, :quarter, :honorific, :mobile, :data_entry_operator, :presence => true
-
-  validates :phone, :contact_number, numericality: true, allow_blank: true
-  validates :boys, :girls, numericality: true
-  validates :mobile, length: {minimum: 13, maximum: 14, message: 'Mobile Number should be 11 digits'}
+  #validates :year, :state, :division_id, :district_id, :thana_id, :union, :title, :headmaster_name, :boys, :girls,
+  #          :agency_id, :quarter, :honorific, :mobile, :data_entry_operator, :presence => true
+  #
+  #validates :phone, :contact_number, numericality: true, allow_blank: true
+  #validates :boys, :girls, numericality: true
+  #validates :mobile, length: {minimum: 13, maximum: 14, message: 'Mobile Number should be 11 digits'}
 
   accepts_nested_attributes_for :first_visit
   accepts_nested_attributes_for :second_visit
@@ -33,6 +33,7 @@ class School < ActiveRecord::Base
   scope :pending, -> { where(status: 'pending') }
   scope :admin_approved, -> { where(status: 'admin_approved') }
   scope :agency_approved, -> { where(status: 'agency_approved') }
+  scope :approved, -> { where(status: ['agency_approved', 'admin_approved']) }
   scope :order_as_district, -> { order('district_id ASC') }
   scope :order_id_desc, -> { order('id DESC') }
   scope :by_agency, ->(agency_id) { where(agency_id: agency_id) }
@@ -75,4 +76,9 @@ class School < ActiveRecord::Base
   def agency_operator
     [self.data_entry_operator, self.agency.code].join("_")
   end
+
+  def approved?
+    self.status == "agency_approved" || self.status == "admin_approved"
+  end
+
 end

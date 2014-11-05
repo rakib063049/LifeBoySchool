@@ -96,6 +96,44 @@ ActiveAdmin.register School, :as => 'AllSchool' do
     column("Data Entry Date") { |school| formated_datetime(school.created_at) }
   end
 
+  csv do
+    column("Implementing Agency") { |school| school.agency.try(:name) }
+    column :year
+    column :quarter
+    column("Unique ID No of Schools") { |school| school.unique_id }
+    column("Country") { |school| school.state }
+    column(:division) { |school| school.division.name }
+    column(:district) { |school| school.district.name }
+    column(:thana) { |school| school.thana.name }
+    column :union
+    column("Name Of School") { |school| school.title }
+    column("Name Of the School Authority") { |school| school.headmaster }
+    column :phone
+    column :mobile
+    column :status
+    column("Male") { |school| school.boys }
+    column("Female") { |school| school.girls }
+    column("Total") { |school| school.total_students }
+    column("Data Entry Operator") { |school| school.data_entry_operator }
+    column("Certificate") { |school| school.completion_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") }
+
+    column("Visit#1") { |school| school.first_visit.try(:visited_at) }
+    column("Visit#1 Image") { |school| school.first_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#1 Certificate") { |school| school.first_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+
+    column("Visit#2") { |school| school.second_visit.try(:visited_at) }
+    column("Visit#2 Image") { |school| school.second_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#2 Certificate") { |school| school.second_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+
+    column("Visit#3") { |school| school.third_visit.try(:visited_at) }
+    column("Visit#3 Image") { |school| school.third_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#3 Certificate") { |school| school.third_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+
+    column("Visit#4") { |school| school.fourth_visit.try(:visited_at) }
+    column("Visit#4 Image") { |school| school.fourth_visit.images.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+    column("Visit#4 Certificate") { |school| school.fourth_visit.acknowledgement_certificates.map { |img| "#{request.host_with_port}#{img.photo.url}" }.join("\n") rescue nil }
+  end
+
   controller do
     def scoped_collection
       School.not_draft

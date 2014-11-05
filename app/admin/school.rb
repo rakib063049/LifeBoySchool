@@ -280,7 +280,7 @@ ActiveAdmin.register School do
     link_to('Agency Approve!', agency_approve_admin_school_path(resource), method: :put)
   end
 
-  action_item :only => [:show], :if => proc { current_user.admin? && resource.agency_approved? } do
+  action_item :only => [:show], :if => proc { current_user.admin? && resource.approved? } do
     link_to('Add Comments!', comments_admin_school_path(resource), method: :get)
   end
 
