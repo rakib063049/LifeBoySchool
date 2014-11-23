@@ -1,8 +1,13 @@
 ActiveAdmin.register School, :as => 'AllSchool' do
   menu :if => proc { current_user.admin? }
-  config.filters = false
   config.batch_actions = false
   config.clear_action_items!
+
+  filter :year
+  filter :created_at, label: 'Data Entry Date'
+  filter :division
+  filter :district
+  filter :title
 
   index :download_links => proc { current_user.admin? } do
     column("Implementing Agency", sortable: 'schools.agency_id') { |school| school.agency.try(:name) }
