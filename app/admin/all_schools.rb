@@ -7,6 +7,8 @@ ActiveAdmin.register School, :as => 'AllSchool' do
   filter :created_at, label: 'Data Entry Date'
   filter :division
   filter :district
+  filter :thana
+  filter :agency
   filter :title
 
   index :download_links => proc { current_user.admin? } do

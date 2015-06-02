@@ -14,6 +14,8 @@ ActiveAdmin.register School do
   filter :created_at, label: 'Data Entry Date'
   filter :division
   filter :district
+  filter :thana
+  filter :agency
   filter :title
 
   index :download_links => proc { current_user.admin? } do
@@ -23,25 +25,25 @@ ActiveAdmin.register School do
     column("Implementing Agency", sortable: 'schools.agency_id') { |school| school.agency.try(:name) }
     column :year
     column :quarter
-    column("Unique ID No of Schools") { |school| school.unique_id }
+    column("Unique ID No of Schools (#{schools.uniq_by(&:unique_id).count})") { |school| school.unique_id }
     column("Country") { |school| school.state }
-    column :division
-    column :district
-    column :thana
-    column :union
-    column("Name Of School") { |school| link_to school.title, admin_school_path(school) }
+    column("Division (#{schools.uniq_by(&:division).count})") { |school| school.division.name }
+    column("District (#{schools.uniq_by(&:district).count})") { |school| school.district.name }
+    column("Thana (#{schools.uniq_by(&:thana).count})") { |school| school.thana.name }
+    column("Union (#{schools.uniq_by(&:union).count})") { |school| school.union }
+    column("Name Of School (#{schools.uniq_by(&:title).count})") { |school| link_to school.title, admin_school_path(school) }
     column :completion_certificates do |school|
       school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
     end
     column("Name Of the School Authority") { |school| school.headmaster }
     column :phone
-    column :mobile
+    column("Mobile (#{schools.uniq_by(&:mobile).count})") { |school| school.mobile }
     unless current_user.viewer?
       column :status
     end
-    column("Male") { |school| school.boys }
-    column("Female") { |school| school.girls }
-    column("Total") { |school| school.total_students }
+    column("Male (#{schools.sum(:boys)})") { |school| school.boys }
+    column("Female (#{schools.sum(:girls)})") { |school| school.girls }
+    column("Total (#{schools.sum(:boys).to_i + schools.sum(:girls).to_i})") { |school| school.total_students }
 
     column "Visit#1" do |school|
       table_for school.first_visit do
@@ -107,8 +109,8 @@ ActiveAdmin.register School do
     if current_user.agency_admin?
       column :reviewed
     end
-    column :back_checked
-    column :spot_checked
+    column("Back Checked Yes :: #{schools.where(back_checked: true).count} <br> No :: #{schools.where(back_checked: false).count}".html_safe) { |school| school.back_checked }
+    column("Spot Checked Yes :: #{schools.where(spot_checked: true).count} <br> No :: #{schools.where(spot_checked: false).count}".html_safe) { |school| school.spot_checked }
     column :comments
 
 
@@ -160,7 +162,7 @@ ActiveAdmin.register School do
       f.input :agency_id, as: :select, :required => true, collection: Agency.all.collect { |c| [c.name, c.id] }, prompt: 'Please select Agency'
       f.input :year, as: :select, collection: 2014..2015, prompt: "Please select Year"
       f.input :quarter, as: :select, collection: Visit::QUARTER, prompt: 'Please select Quarter'
-      f.input :state, :input_html => {:value => f.object.state || 'Bangladesh', :readonly=>true}, label: "Country"
+      f.input :state, :input_html => {:value => f.object.state || 'Bangladesh', :readonly => true}, label: "Country"
       f.input :division_id, as: :select, collection: Division.all.collect { |c| [c.name, c.id] }, :required => true, prompt: 'Please select Division'
       f.input :district_id, as: :select, :required => true, :input_html => {'data-option-dependent' => true,
                                                                             'data-option-url' => '/schools/districts?division_id=:school_division_id',
