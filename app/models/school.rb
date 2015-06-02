@@ -33,6 +33,7 @@ class School < ActiveRecord::Base
   scope :pending, -> { where(status: 'pending') }
   scope :admin_approved, -> { where(status: 'admin_approved') }
   scope :agency_approved, -> { where(status: 'agency_approved') }
+  scope :approved, -> { where(status: ['agency_approved', 'admin_approved']) }
   scope :order_as_district, -> { order('district_id ASC') }
   scope :order_id_desc, -> { order('id DESC') }
   scope :by_agency, ->(agency_id) { where(agency_id: agency_id) }
@@ -75,4 +76,9 @@ class School < ActiveRecord::Base
   def agency_operator
     [self.data_entry_operator, self.agency.code].join("_")
   end
+
+  def approved?
+    self.status == "agency_approved" || self.status == "admin_approved"
+  end
+
 end

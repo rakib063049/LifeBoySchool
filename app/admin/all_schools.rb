@@ -1,11 +1,16 @@
 ActiveAdmin.register School, :as => 'AllSchool' do
   menu :if => proc { current_user.admin? }
-  config.filters = false
   config.batch_actions = false
   config.clear_action_items!
 
+  filter :year
+  filter :created_at, label: 'Data Entry Date'
+  filter :division
+  filter :district
+  filter :title
+
   index :download_links => proc { current_user.admin? } do
-    column("Implementing Agency") { |school| school.agency.try(:name) }
+    column("Implementing Agency", sortable: 'schools.agency_id') { |school| school.agency.try(:name) }
     column :year
     column :quarter
     column("Unique ID No of Schools") { |school| school.unique_id }
@@ -94,6 +99,33 @@ ActiveAdmin.register School, :as => 'AllSchool' do
 
     column("Data Entry Operator") { |school| school.agency_operator }
     column("Data Entry Date") { |school| formated_datetime(school.created_at) }
+  end
+
+  csv do
+    column :year
+    column("Agency") { |school| school.agency.try(:name) }
+    column :quarter
+    column("Unique ID") { |school| school.unique_id }
+    column("Country") { |school| school.state }
+    column(:division) { |school| school.division.name }
+    column(:district) { |school| school.district.name }
+    column(:thana) { |school| school.thana.name }
+    column :union
+    column("Title") { |school| school.title }
+    column("Headmaster") { |school| school.headmaster }
+    column :phone
+    column :mobile
+    column :assistant_teacher_name
+    column :contact_number
+    column :status
+    column :boys
+    column :girls
+    column("Total Student") { |school| school.total_students }
+    column("Data Entry Operator") { |school| school.data_entry_operator }
+    column("Visit#1") { |school| school.first_visit.try(:visited_at) }
+    column("Visit#2") { |school| school.second_visit.try(:visited_at) }
+    column("Visit#3") { |school| school.third_visit.try(:visited_at) }
+    column("Visit#4") { |school| school.fourth_visit.try(:visited_at) }
   end
 
   controller do
