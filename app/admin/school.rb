@@ -19,25 +19,26 @@ ActiveAdmin.register School do
   filter :title
 
   index :download_links => proc { current_user.admin? } do
+    all_schools = School.fetch_all(current_user)
     if current_user.operator?
       selectable_column
     end
     column("Implementing Agency", sortable: 'schools.agency_id') { |school| school.agency.try(:name) }
     column :year
     column :quarter
-    column("Unique ID No of Schools (#{schools.uniq_by(&:unique_id).count})") { |school| school.unique_id }
+    column("Unique ID No of Schools (#{all_schools[:unique_id]})") { |school| school.unique_id }
     column("Country") { |school| school.state }
-    column("Division (#{schools.uniq_by(&:division).count})") { |school| school.division.name }
-    column("District (#{schools.uniq_by(&:district).count})") { |school| school.district.name }
-    column("Thana (#{schools.uniq_by(&:thana).count})") { |school| school.thana.name }
-    column("Union (#{schools.uniq_by(&:union).count})") { |school| school.union }
-    column("Name Of School (#{schools.uniq_by(&:title).count})") { |school| link_to school.title, admin_school_path(school) }
+    column("Division (#{all_schools[:division]})") { |school| school.division.name }
+    column("District (#{all_schools[:district]})") { |school| school.district.name }
+    column("Thana (#{all_schools[:thana]})") { |school| school.thana.name }
+    column("Union (#{all_schools[:union]})") { |school| school.union }
+    column("Name Of School (#{all_schools[:title]})") { |school| link_to school.title, admin_school_path(school) }
     column :completion_certificates do |school|
       school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
     end
     column("Name Of the School Authority") { |school| school.headmaster }
     column :phone
-    column("Mobile (#{schools.uniq_by(&:mobile).count})") { |school| school.mobile }
+    column("Mobile (#{all_schools[:mobile]})") { |school| school.mobile }
     unless current_user.viewer?
       column :status
     end
@@ -109,8 +110,8 @@ ActiveAdmin.register School do
     if current_user.agency_admin?
       column :reviewed
     end
-    column("Back Checked Yes :: #{schools.where(back_checked: true).count} <br> No :: #{schools.where(back_checked: false).count}".html_safe) { |school| school.back_checked }
-    column("Spot Checked Yes :: #{schools.where(spot_checked: true).count} <br> No :: #{schools.where(spot_checked: false).count}".html_safe) { |school| school.spot_checked }
+    column("Back Checked #{all_schools[:back_checked]}".html_safe) { |school| school.back_checked }
+    column("Spot Checked #{all_schools[:spot_checked]}".html_safe) { |school| school.spot_checked }
     column :comments
 
 

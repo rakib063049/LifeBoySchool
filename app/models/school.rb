@@ -81,4 +81,31 @@ class School < ActiveRecord::Base
     self.status == "agency_approved" || self.status == "admin_approved"
   end
 
+  def self.fetch_all(current_user)
+    if current_user.admin?
+      schools = School.agency_approved.not_reviewed
+    elsif current_user.agency_admin?
+      schools = School.by_agency(current_user.agency_id).not_draft
+    elsif current_user.viewer?
+      schools = School.admin_approved
+    elsif current_user.operator?
+      schools = School.by_agency(current_user.agency_id).load
+    end
+
+    return {
+        unique_id: schools.uniq(&:unique_id).count,
+        division: schools.uniq(&:division).count,
+        district: schools.uniq(&:district).count,
+        thana: schools.uniq(&:thana).count,
+        union: schools.uniq(&:union).count,
+        title: schools.uniq(&:title).count,
+        schools: schools.uniq(&:mobile).count,
+        boys: schools.sum(:boys),
+        girls: schools.sum(:girls),
+        total_student: schools.sum(:boys).to_i + schools.sum(:girls).to_i,
+        back_checked: "Yes :: #{schools.where(back_checked: true).count} <br> No :: #{schools.where(back_checked: false).count}",
+        spot_checked: "Yes :: #{schools.where(spot_checked: true).count} <br> No :: #{schools.where(spot_checked: false).count}"
+    }
+  end
+
 end
