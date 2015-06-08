@@ -42,9 +42,9 @@ ActiveAdmin.register School do
     unless current_user.viewer?
       column :status
     end
-    column("Male (#{schools.sum(:boys)})") { |school| school.boys }
-    column("Female (#{schools.sum(:girls)})") { |school| school.girls }
-    column("Total (#{schools.sum(:boys).to_i + schools.sum(:girls).to_i})") { |school| school.total_students }
+    column("Male (#{all_schools[:boys]})") { |school| school.boys }
+    column("Female (#{all_schools[:girls]})") { |school| school.girls }
+    column("Total (#{all_schools[:total_student]})") { |school| school.total_students }
 
     column "Visit#1" do |school|
       table_for school.first_visit do

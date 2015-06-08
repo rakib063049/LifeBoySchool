@@ -12,26 +12,27 @@ ActiveAdmin.register School, :as => 'AllSchool' do
   filter :title
 
   index :download_links => proc { current_user.admin? } do
+    all_schools = School.fetch_all(current_user, true)
     column("Implementing Agency", sortable: 'schools.agency_id') { |school| school.agency.try(:name) }
     column :year
     column :quarter
-    column("Unique ID No of Schools") { |school| school.unique_id }
+    column("Unique ID No of Schools (#{all_schools[:unique_id]})") { |school| school.unique_id }
     column("Country") { |school| school.state }
-    column :division
-    column :district
-    column :thana
-    column :union
-    column("Name Of School") { |school| link_to school.title, admin_school_path(school) }
+    column("Division (#{all_schools[:division]})") { |school| school.division.name }
+    column("District (#{all_schools[:district]})") { |school| school.district.name }
+    column("Thana (#{all_schools[:thana]})") { |school| school.thana.name }
+    column("Union (#{all_schools[:union]})") { |school| school.union }
+    column("Name Of School (#{all_schools[:title]})") { |school| link_to school.title, admin_school_path(school) }
     column :completion_certificates do |school|
       school.completion_certificates.map { |img| link_to "Image", img.photo.url, target: '_blank' }.join(', ').html_safe rescue nil
     end
     column("Name Of the School Authority") { |school| school.headmaster }
     column :phone
-    column :mobile
+    column("Mobile (#{all_schools[:mobile]})") { |school| school.mobile }
     column :status
-    column("Male") { |school| school.boys }
-    column("Female") { |school| school.girls }
-    column("Total") { |school| school.total_students }
+    column("Male (#{all_schools[:boys]})") { |school| school.boys }
+    column("Female (#{all_schools[:girls]})") { |school| school.girls }
+    column("Total (#{all_schools[:total_student]})") { |school| school.total_students }
 
     column "Visit#1" do |school|
       table_for school.first_visit do
@@ -94,8 +95,8 @@ ActiveAdmin.register School, :as => 'AllSchool' do
 
     column :draft
     column :reviewed
-    column :back_checked
-    column :spot_checked
+    column("Back Checked #{all_schools[:back_checked]}".html_safe) { |school| school.back_checked }
+    column("Spot Checked #{all_schools[:spot_checked]}".html_safe) { |school| school.spot_checked }
     column :comments
 
 
