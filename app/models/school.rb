@@ -97,13 +97,13 @@ class School < ActiveRecord::Base
       end
     end
     return {
-        unique_id: schools.uniq(&:unique_id).count,
-        division: schools.uniq(&:division).count,
-        district: schools.uniq(&:district).count,
-        thana: schools.uniq(&:thana).count,
-        union: schools.uniq(&:union).count,
-        title: schools.uniq(&:title).count,
-        mobile: schools.uniq(&:mobile).count,
+        unique_id: schools.uniq_by(&:unique_id).count,
+        division: schools.uniq_by(&:division).count,
+        district: schools.uniq_by(&:district).count,
+        thana: schools.uniq_by(&:thana).count,
+        union: schools.uniq_by(&:union).count,
+        title: schools.uniq_by(&:title).count,
+        mobile: schools.uniq_by(&:mobile).count,
         boys: schools.sum(:boys),
         girls: schools.sum(:girls),
         total_student: schools.sum(:boys).to_i + schools.sum(:girls).to_i,
